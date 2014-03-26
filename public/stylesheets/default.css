@@ -1,0 +1,64 @@
+.header {
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:10px;
+    width:800px;
+    height:100px;
+    border:1px solid #000000;
+    background:#FFFFFF;
+}
+.menu {
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:10px;
+    width:800px;
+    height:30px;
+    border:1px solid #000000;
+    background:#FFFFFF;
+}
+.pages {
+    margin-left:auto;
+    margin-right:auto;
+    width:870px;
+}
+.content {
+    margin-right:10px;
+    width:69%;
+    height:100%;
+    background:#FFFFFF;
+    float:left;
+}
+.sidebar {
+    width:20%;
+    height:100%;
+    margin-right: 5%;
+    background:#FFFFFF;
+    float:left;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fff5f9', endColorstr = '#fffafe');
+    /*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+    /*Element must have a height (not auto)*/
+    /*All filters must be placed together*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fff5f9', endColorstr = '#fffafe')";
+    /*Element must have a height (not auto)*/
+    /*All filters must be placed together*/
+    background-image: -moz-linear-gradient(top, #fff5f9, #fffafe);
+    background-image: -ms-linear-gradient(top, #fff5f9, #fffafe);
+    background-image: -o-linear-gradient(top, #fff5f9, #fffafe);
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#fff5f9), to(#fffafe));
+    background-image: -webkit-linear-gradient(top, #fff5f9, #fffafe);
+    background-image: linear-gradient(top, #fff5f9, #fffafe);
+    /*--IE9 DOES NOT SUPPORT CSS3 GRADIENT BACKGROUNDS--*/
+}
+
+.foot {
+    clear:both;
+}
+.footer {
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    width:800px;
+    height:50px;
+    border:1px solid #000000;
+    background:#FFFFFF;
+}

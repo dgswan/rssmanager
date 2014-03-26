@@ -1,0 +1,103 @@
+.form-container {
+    border: 0px solid #ffffff;
+    background: #99a1d4;
+    background: -webkit-gradient(linear, left top, left bottom, from(#aec3d6), to(#99a1d4));
+    background: -webkit-linear-gradient(top, #aec3d6, #99a1d4);
+    background: -moz-linear-gradient(top, #aec3d6, #99a1d4);
+    background: -ms-linear-gradient(top, #aec3d6, #99a1d4);
+    background: -o-linear-gradient(top, #aec3d6, #99a1d4);
+    background-image: -ms-linear-gradient(top, #aec3d6 0%, #99a1d4 100%);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: rgba(000,000,000,0.9) 0 0px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+    -moz-box-shadow: rgba(000,000,000,0.9) 0 0px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+    box-shadow: rgba(000,000,000,0.9) 0 0px 2px, inset rgba(255,255,255,0.4) 0 0px 0;
+    font-family: 'Helvetica Neue',Helvetica,sans-serif;
+    text-decoration: none;
+    vertical-align: middle;
+    min-width:300px;
+    padding:20px;
+    width:300px;
+}
+.form-field {
+    border: 1px solid #c9b7a2;
+    background: #f0ece8;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    color: #2b2218;
+    -webkit-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+    -moz-box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+    box-shadow: rgba(255,255,255,0.4) 0 1px 0, inset rgba(000,000,000,0.7) 0 0px 0px;
+    padding:8px;
+    margin-bottom:20px;
+    width:280px;
+}
+.form-field:focus {
+    background: #fff;
+    color: #3d3021;
+}
+.form-container h2 {
+    text-shadow: #d1b28c 0 1px 0;
+    font-size:18px;
+    margin: 0 0 10px 0;
+    font-weight:bold;
+    text-align:center;
+}
+.form-title {
+    margin-bottom:10px;
+    color: #353559;
+    text-shadow: #d1b28c 0 1px 0;
+}
+.submit-container {
+    margin:8px 0;
+    text-align:right;
+}
+.submit-button {
+    border: 0px solid #ffffff;
+    background: #5763eb;
+    background: -webkit-gradient(linear, left top, left bottom, from(#4f65e3), to(#5763eb));
+    background: -webkit-linear-gradient(top, #4f65e3, #5763eb);
+    background: -moz-linear-gradient(top, #4f65e3, #5763eb);
+    background: -ms-linear-gradient(top, #4f65e3, #5763eb);
+    background: -o-linear-gradient(top, #4f65e3, #5763eb);
+    background-image: -ms-linear-gradient(top, #4f65e3 0%, #5763eb 100%);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    -moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 0px 0;
+    text-shadow: #36402b 0 1px 0;
+    color: #151424;
+    font-family: helvetica, serif;
+    padding: 8.5px 18px;
+    font-size: 14px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+.submit-button:hover {
+    border: 0px solid #ffffff;
+    text-shadow: #2d3822 0 1px 0;
+    background: #3b76a3;
+    background: -webkit-gradient(linear, left top, left bottom, from(#435ea3), to(#3b76a3));
+    background: -webkit-linear-gradient(top, #435ea3, #3b76a3);
+    background: -moz-linear-gradient(top, #435ea3, #3b76a3);
+    background: -ms-linear-gradient(top, #435ea3, #3b76a3);
+    background: -o-linear-gradient(top, #435ea3, #3b76a3);
+    background-image: -ms-linear-gradient(top, #435ea3 0%, #3b76a3 100%);
+    color: #1f131f;
+}
+.submit-button:active {
+    text-shadow: #2b381e 0 1px 0;
+    border: 0px solid #f6ffed;
+    background: #1c32bf;
+    background: -webkit-gradient(linear, left top, left bottom, from(#132b8f), to(#3b76a3));
+    background: -webkit-linear-gradient(top, #132b8f, #1c32bf);
+    background: -moz-linear-gradient(top, #132b8f, #1c32bf);
+    background: -ms-linear-gradient(top, #132b8f, #1c32bf);
+    background: -o-linear-gradient(top, #132b8f, #1c32bf);
+    background-image: -ms-linear-gradient(top, #132b8f 0%, #1c32bf 100%);
+    color: #2b1a2b;
+}

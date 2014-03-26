@@ -1,0 +1,43 @@
+.item {
+    width: 70%;
+}
+
+.item h2 {
+    font: 200 40px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 5;
+    padding: 20;
+}
+
+.item ul {
+    list-style-type: none;
+    margin: 5;
+    padding: 5;
+}
+
+.item li {
+    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 5;
+    border-bottom: 1px solid #ccc;
+}
+
+.item li:last-child {
+    border: none;
+}
+
+.item li a {
+    text-decoration: none;
+    color: #000;
+    display: block;
+    width: 70%;
+
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+.item li a:hover {
+    font-size: 30px;
+    background: #f6f6f6;
+}

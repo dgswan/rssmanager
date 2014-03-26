@@ -1,3 +1,38 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-Hello world.
+
+    <div class="sidebar">
+        <button class="button" >
+            Mark as read
+        </button>
+        <div class="status">
+            <nav>
+                <ul>
+                    <li><a href="#">newest</a></li>
+                    <li class="active"><a href="#">unread</a></li>
+                    <li><a href="#">starred</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class ="item">
+            <h2>TagList</h2>
+            <ul>
+                <li><a href="#">tag1</a></li>
+                <li><a href="#">tag2</a></li>
+                <li><a href="#">tag3</a></li>
+                <li><a href="#">tag4</a></li>
+                <li><a href="#">tag5</a></li>
+            </ul>
+        </div>
+    </div>
+<div class="content">
+    <div class ="item">
+        <ul>
+            <li><a href="#">Some article about something</a></li>
+            <li><a href="#">Some article about something sensless</a></li>
+            <li><a href="#">Some article about things coming in</a></li>
+            <li><a href="#">Such an article you never want to read</a></li>
+            <li><a href="#">You'd better not read it</a></li>
+        </ul>
+    </div>
+</div>
