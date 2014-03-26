@@ -4,15 +4,19 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta charset="${_response_encoding}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap.min.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/default.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/list.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/status.css'}">
-        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/item.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/feedlist.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/metro.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/login.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/wrap.css'}">
+
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/bootstrap.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         #{get 'moreScripts' /}
     </head>
     <body>

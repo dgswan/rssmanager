@@ -1,5 +1,20 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
+<script>
+$("document").ready(function(){
+    $(".wrap").click(function(){
+        var slideHeight = 35;
+        var curHeight = $(this).height();
+        if (curHeight != slideHeight) {
+                $(this).animate({height: slideHeight}, "normal");
+            }
+            else {
+                $(this).animate({height: 200}, "normal");
+            }
+        return true;
+    })
+})
+</script>
 
     <div class="sidebar">
         <button class="button" >
@@ -14,7 +29,7 @@
                 </ul>
             </nav>
         </div>
-        <div class ="item">
+        <div class ="feedlist">
             <h2>TagList</h2>
             <ul>
                 <li><a href="#">tag1</a></li>
@@ -26,13 +41,62 @@
         </div>
     </div>
 <div class="content">
-    <div class ="item">
-        <ul>
-            <li><a href="#">Some article about something</a></li>
-            <li><a href="#">Some article about something sensless</a></li>
-            <li><a href="#">Some article about things coming in</a></li>
-            <li><a href="#">Such an article you never want to read</a></li>
-            <li><a href="#">You'd better not read it</a></li>
+    <div class ="feedlist">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        Some article about something
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        Some article about something sensless
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        Some article about things coming in
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        Such an article you never want to read
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        You'd better not read it
+                        mkbvkjwbkvs
+                        jksbkjsbnkvb nkwbjnvwibviwbviwbviubwivbwi
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        klwnglkwnbwnbonwoniwbnwoklwnglkwnbwnbonwoniwbnwovwvwv
+                        wvwedddddddddddddddddddddddddddddddddddddddddddddddddddd
+                        wvwffffffffffffffffffffffffffffffffffffffffffffffffwd
+                        wddddddddddddddddddddddddddddddddddddddddd
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="wrap">
+                    <div>
+                        You'd better not read it
+                    </div>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
