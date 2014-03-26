@@ -1,0 +1,9 @@
+/tmp
+/modules
+/lib
+/test-result
+/logs
+rssmanager.iml
+rssmanager.ipr
+rssmanager.iws
+server.pid
