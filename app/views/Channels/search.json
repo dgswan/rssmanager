@@ -1,0 +1,19 @@
+{
+    "channels" : [
+        #{list channels, as:'channel'}
+        {
+            "id" : ${channel.getId()},
+            "title" : ${channel.getTitle()},
+            "description" : ${channel.getDescription()},
+            "url" : ${channel.getUrl()},
+            "pubDate" : ${channel.getPubDate()},
+            "image" : ${channel.getImage()}
+        },
+        #{/list}
+    ],
+    "metadata" : {
+        "offset" : ${offset},
+          "limit" : ${limit},
+          "count" : 42
+    }
+}

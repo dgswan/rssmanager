@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 public class Item extends Model {
+
     @OneToMany
     public List<UserItem> userItems;
 
@@ -28,5 +29,12 @@ public class Item extends Model {
 
     @Required
     public Date pubDate;
+
+    public Item() {
+        title = "title";
+        description = "description";
+        url = "url";
+        pubDate = new Date();
+    }
 
 }

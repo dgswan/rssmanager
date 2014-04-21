@@ -1,0 +1,18 @@
+{
+    "channelId" : ${channelId},
+	"items" : [{"id" : 0,
+	"title": "",
+	"link" : "",
+	"description" : "",
+	"pubDate": "",
+	"guid": ""},
+	{
+    	"id" : 1,
+    	"title": "",
+    	"link" : "",
+    	"description" : "",
+    	"pubDate": "",
+    	"guid": ""
+    }
+	]
+}

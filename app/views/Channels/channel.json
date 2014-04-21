@@ -1,0 +1,8 @@
+{
+    "id" : "${channelId}",
+    "title" : "${channel.getTitle()}",
+    "description" : "${channel.getDescription()}",
+    "url" : "${channel.getUrl()}",
+    "pubDate" : "${channel.getPubDate()}",
+    "image" : "${channel.getImage()}"
+}
