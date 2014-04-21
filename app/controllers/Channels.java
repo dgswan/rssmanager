@@ -10,6 +10,8 @@ import java.util.List;
 
 public  class Channels extends Controller {
 
+    public static final Gson gson = new Gson();
+
     public  static void channel(int channelId) {
         Channel channel = new Channel(); //TODO
         render(channelId, channel);
@@ -17,7 +19,6 @@ public  class Channels extends Controller {
 
     public  static void channels(int offset, int limit) {
         List<Channel> channels = new ArrayList<Channel>();
-        Gson gson = new Gson();
         channels.add(new Channel());
         channels.add(new Channel());
         String jsonChannels = gson.toJson(channels);
@@ -27,7 +28,6 @@ public  class Channels extends Controller {
 
     public static void channels(String q, int offset, int limit) {
         List<Channel> channels = new ArrayList<Channel>();
-        Gson gson = new Gson();
         channels.add(new Channel());
         channels.add(new Channel());
         String jsonChannels = gson.toJson(channels);
@@ -37,7 +37,6 @@ public  class Channels extends Controller {
 
     public  static void items(int channelId, int offset, int limit) {
         List<Item> items = new ArrayList<Item>();
-        Gson gson = new Gson();
         items.add(new Item());
         items.add(new Item());
 
@@ -58,13 +57,6 @@ public  class Channels extends Controller {
     }
 
     public static void unsubscribe(int channelId) {
-    }
-
-    public static void search (String q, int offset, int limit) {
-        List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel());
-        channels.add(new Channel());
-        render(channels, offset, limit);
     }
 
 
