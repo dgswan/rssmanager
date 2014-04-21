@@ -30,7 +30,11 @@ public class Item extends Model {
     @Required
     public Date pubDate;
 
+    @Required
+    public String image;
+
     public Item() {
+        id = 3l;
         title = "title";
         description = "description";
         url = "url";
