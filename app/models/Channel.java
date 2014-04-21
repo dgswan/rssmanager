@@ -7,7 +7,6 @@ import play.db.jpa.Model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class Channel extends Model {
     public String image;
 
     public Channel() {
+        id = 4l;
         title = "title";
         description = "description";
         url = "url";

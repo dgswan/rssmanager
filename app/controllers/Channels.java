@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.Channel;
 import models.Item;
 import play.mvc.Controller;
@@ -10,7 +11,14 @@ import java.util.List;
 
 public  class Channels extends Controller {
 
-    public static final Gson gson = new Gson();
+    public static final Gson gson;
+
+    static {
+        final GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Channel.class, new ChannelSerializer());
+        gsonBuilder.setPrettyPrinting();
+        gson = gsonBuilder.create();
+    }
 
     public  static void channel(int channelId) {
         Channel channel = new Channel(); //TODO
