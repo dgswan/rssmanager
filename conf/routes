@@ -22,7 +22,8 @@ DELETE  /channels/{<[0-9]+>channelId}           Channels.unsubscribe(format:'jso
 
 
 GET    /items                                   Items.items(format:'json')
-PUT    /items                                   Items.action(format:'json')
+GET    /items/{<[0-9]+>itemId}                  Items.item(format:'json')
+PUT    /items/{<[0-9]+>itemId}                  Items.action(format:'json')
 
 
 # Catch all
