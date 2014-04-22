@@ -6,6 +6,7 @@ import play.db.jpa.Model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,5 +41,30 @@ public class Item extends Model {
         url = "url";
         pubDate = new Date();
     }
+
+    public static List<Item> getItems(Channel channel, int page, int length) {
+        return find("channel", channel).fetch(page, length);
+
+    }
+
+    public static List<Item> getItems(User user, int page, int length) {
+        List<UserItem> userItems = UserItem.findByUser(user);
+        List<Item> items = new ArrayList<Item>();
+        for(UserItem useritem: userItems ) {
+            items.add(useritem.item);
+        }
+        return items;
+    }
+
+    public Item getItem(int itemId) {
+        return find("id", itemId).first();
+    }
+
+    public void markAsRead(User user) {
+        UserItem useritem = find("user = ? and item = ?", user, this).first();
+        useritem.isRead = true;
+        useritem.refresh();
+    }
+
 
 }

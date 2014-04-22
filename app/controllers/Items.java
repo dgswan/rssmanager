@@ -19,12 +19,12 @@ public class Items extends Controller {
         gson = gsonBuilder.create();
     }
 
-    public static void items(int offset, int limit) {
+    public static void items(int page, int lenght) {
         List<Item> items = new ArrayList<Item>();
         items.add(new Item());
         items.add(new Item());
         String jsonItems = gson.toJson(items);
-        render(jsonItems, offset, limit);
+        render(jsonItems, page, lenght);
     }
 
     public static void item(int itemId) {
