@@ -5,6 +5,7 @@ import play.db.jpa.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 public class UserItem extends Model {
@@ -16,6 +17,16 @@ public class UserItem extends Model {
 
     @ManyToOne
     public Item item;
+
+    public UserItem(User user, Item item) {
+        this.user = user;
+        this.item = item;
+        create();
+    }
+
+    public static List<UserItem> findByUser(User user) {
+        return find("user", user).fetch();
+    }
 
 
 }
