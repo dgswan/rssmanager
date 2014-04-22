@@ -21,35 +21,38 @@ public  class Channels extends Controller {
     }
 
     public  static void channel(int channelId) {
-        Channel channel = new Channel(); //TODO
+       // Channel channel = Channel.findById(channelId); //TODO
+        Channel channel = new Channel();
         render(channelId, channel);
     }
 
-    public  static void channels(int offset, int limit) {
+    public  static void channels(int page, int length) {
+       // User user = User.findById(1); //TODO
+      //  List<Channel> channels = Channel.getChannels(user, page, length);
+        List<Channel> channels = new ArrayList<>();
+        channels.add(new Channel());
+        channels.add(new Channel());
+        String jsonChannels = gson.toJson(channels);
+        render(jsonChannels, page, length);
+
+    }
+
+    public static void channels(String q, int page, int length) {
         List<Channel> channels = new ArrayList<Channel>();
         channels.add(new Channel());
         channels.add(new Channel());
         String jsonChannels = gson.toJson(channels);
-        render(jsonChannels, offset, limit);
+        render(jsonChannels, page, length);
 
     }
 
-    public static void channels(String q, int offset, int limit) {
-        List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel());
-        channels.add(new Channel());
-        String jsonChannels = gson.toJson(channels);
-        render(jsonChannels, offset, limit);
-
-    }
-
-    public  static void items(int channelId, int offset, int limit) {
+    public  static void items(int channelId, int page, int length) {
         List<Item> items = new ArrayList<Item>();
         items.add(new Item());
         items.add(new Item());
 
         String jsonItems = gson.toJson(items);
-        render(jsonItems, offset, limit);
+        render(jsonItems, page, length);
     }
 
     public static void create(String url) {
@@ -65,6 +68,7 @@ public  class Channels extends Controller {
     }
 
     public static void unsubscribe(int channelId) {
+
     }
 
 

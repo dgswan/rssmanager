@@ -1,8 +1,8 @@
 {
     "channels" : ${jsonChannels},
     "metadata" : {
-        "offset" : ${offset},
-          "limit" : ${limit},
+        "page" : ${page},
+          "length" : ${length},
           "count" : 42
     }
 }
