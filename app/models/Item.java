@@ -35,11 +35,7 @@ public class Item extends Model {
     public String image;
 
     public Item() {
-        id = 3l;
-        title = "title";
-        description = "description";
-        url = "url";
-        pubDate = new Date();
+
     }
 
     public Item(Channel channel, String title, String description, String url, Date pubDate, String image) {
