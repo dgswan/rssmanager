@@ -1,6 +1,7 @@
 package models;
 
 
+import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -55,7 +57,7 @@ public class Channel extends Model {
         this.url = url;
         this.pubDate = pubDate;
         this.image = image;
-      //  create();
+        //  create();
     }
 
     public static List<Channel> getChannels(User user, int page, int length) {
@@ -65,7 +67,7 @@ public class Channel extends Model {
     }
 
     public static Channel getChannel(long channelId) {
-        return find("id", channelId ).first();
+        return find("id", channelId).first();
     }
 
     public List<Item> getItems(int page, int length) {
@@ -80,6 +82,10 @@ public class Channel extends Model {
 
     }
 
+    private List<User> getSubscribedUsers() {
+        return User.find("channel", this).fetch();
+    }
+
     public void unsubscribe(User user) {
         users.remove(user);
         user.channels.remove(this);
@@ -88,10 +94,46 @@ public class Channel extends Model {
 
     }
 
+    private boolean exists(Item item) {
+        return Item.count("select count(distinct *) from Item where title = ? and pubDate = ? and channel = ?", item.title, item.pubDate, this) != 0;
+    }
+
+    public void update() throws IOException, FeedException {
+
+        URL url = new URL(this.url);
+        HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+        SyndFeedInput input = new SyndFeedInput();
+        SyndFeed feed = input.build(new XmlReader(httpcon));
+        List entries = feed.getEntries();
+        List<User> users = getSubscribedUsers();
+        Iterator itEntries = entries.iterator();
+
+        while (itEntries.hasNext()) {
+            SyndEntry entry = (SyndEntry) itEntries.next();
+            Item item = new Item(this, entry.getTitle(),
+                    entry.getDescription().toString(),
+                    entry.getUri(),
+                    entry.getPublishedDate(),
+                    ""
+            );
+            if (!exists(item)) {
+                items.add(item);
+                item.create();
+                refresh();
+                for(User user: users) {
+                    UserItem useritem = new UserItem(user, item);
+                    useritem.create();
+                }
+            }
+        }
+
+
+    }
+
     public static void addChannel(String urlString) throws IOException, FeedException {
 
         URL url = new URL(urlString);
-        HttpURLConnection httpcon = (HttpURLConnection)url.openConnection();
+        HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         // Reading the feed
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed channel = input.build(new XmlReader(httpcon));
@@ -100,16 +142,8 @@ public class Channel extends Model {
                 channel.getUri(),
                 channel.getPublishedDate(),
                 img);
-        if (ch.create()) {
-            play.Logger.info("channel created");
-            play.Logger.info("%d", ch.id);
-            play.Logger.info("%s", ch.description );
-            play.Logger.info("%s", channel.getDescription());
-        } else {
-            play.Logger.info("channel not created");
-        }
+        ch.create();
     }
-
 
 
 }

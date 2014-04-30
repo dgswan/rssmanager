@@ -42,6 +42,16 @@ public class Item extends Model {
         pubDate = new Date();
     }
 
+    public Item(Channel channel, String title, String description, String url, Date pubDate, String image) {
+        this.channel = channel;
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.pubDate = pubDate;
+        this.image = image;
+
+    }
+
     public static List<Item> getItems(Channel channel, int page, int length) {
         return find("channel", channel).fetch(page, length);
 
