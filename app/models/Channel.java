@@ -6,6 +6,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import play.Logger;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -83,7 +84,7 @@ public class Channel extends Model {
     }
 
     private List<User> getSubscribedUsers() {
-        return User.find("channel", this).fetch();
+        return User.find("channels", this).fetch();
     }
 
     public void unsubscribe(User user) {
@@ -95,29 +96,33 @@ public class Channel extends Model {
     }
 
     private boolean exists(Item item) {
-        return Item.count("select count(distinct *) from Item where title = ? and pubDate = ? and channel = ?", item.title, item.pubDate, this) != 0;
+        return Item.count("select count(distinct i) from Item i where title = ? and pubDate = ? and channel = ?", item.title, item.pubDate, this) != 0;
     }
 
     public void update() throws IOException, FeedException {
+
+       // if (this.url == null)
+        Logger.info(this.url);
 
         URL url = new URL(this.url);
         HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed feed = input.build(new XmlReader(httpcon));
         List entries = feed.getEntries();
-        List<User> users = getSubscribedUsers();
+        //List<User> users = getSubscribedUsers();
         Iterator itEntries = entries.iterator();
 
         while (itEntries.hasNext()) {
             SyndEntry entry = (SyndEntry) itEntries.next();
             Item item = new Item(this, entry.getTitle(),
-                    entry.getDescription().toString(),
-                    entry.getUri(),
+                    entry.getDescription().getValue().substring(0, 20), //TODO
+                    entry.getLink(),
                     entry.getPublishedDate(),
                     ""
             );
             if (!exists(item)) {
-                items.add(item);
+               // items.add(item);
+                Logger.info(item.title);
                 item.create();
                 refresh();
                 for(User user: users) {
@@ -138,8 +143,9 @@ public class Channel extends Model {
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed channel = input.build(new XmlReader(httpcon));
         String img = channel.getImage() != null ? channel.getImage().getUrl() : "";
-        Channel ch = new Channel(channel.getTitle(), channel.getDescription(),
-                channel.getUri(),
+        Channel ch = new Channel(channel.getTitle(),
+                channel.getDescription(),
+                urlString,
                 channel.getPublishedDate(),
                 img);
         ch.create();
