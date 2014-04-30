@@ -9,7 +9,7 @@ import play.mvc.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Items extends Controller {
+public class ItemsController extends Controller {
     public static final Gson gson;
 
     static {

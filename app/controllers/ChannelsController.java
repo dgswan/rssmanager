@@ -4,12 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.Channel;
 import models.Item;
+import play.Logger;
 import play.mvc.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public  class Channels extends Controller {
+public  class ChannelsController extends Controller {
 
     public static final Gson gson;
 
@@ -20,27 +21,28 @@ public  class Channels extends Controller {
         gson = gsonBuilder.create();
     }
 
-    public  static void channel(int channelId) {
-       // Channel channel = Channel.findById(channelId); //TODO
-        Channel channel = new Channel();
+    public  static void channel(long channelId) {
+        Channel channel = Channel.getChannel(channelId);
+        Logger.info(channel.description);
         render(channelId, channel);
     }
 
     public  static void channels(int page, int length) {
        // User user = User.findById(1); //TODO
       //  List<Channel> channels = Channel.getChannels(user, page, length);
-        List<Channel> channels = new ArrayList<>();
-        channels.add(new Channel());
-        channels.add(new Channel());
+        List<Channel> channels = new ArrayList<Channel>();
+       // channels.add(new Channel());
+      //  channels.add(new Channel());
+        channels = Channel.getChannels(null, 0, 0);
         String jsonChannels = gson.toJson(channels);
-        render(jsonChannels, page, length);
+       render(jsonChannels, page, length);
 
     }
 
     public static void channels(String q, int page, int length) {
         List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel());
-        channels.add(new Channel());
+        //channels.add(new Channel());
+        //channels.add(new Channel());
         String jsonChannels = gson.toJson(channels);
         render(jsonChannels, page, length);
 

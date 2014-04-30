@@ -12,18 +12,18 @@ GET     /favicon.ico                            404
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
-GET     /channels                               Channels.channels(format:'json')
-GET     /channels/{<[0-9]+>channelId}           Channels.channel(format:'json')
-GET     /channels/{<[0-9]+>channelId}/items     Channels.items(format:'json')
+GET     /channels                               ChannelsController.channels(format:'json')
+GET     /channels/{<[0-9]+>channelId}           ChannelsController.channel(format:'json')
+GET     /channels/{<[0-9]+>channelId}/items     ChannelsController.items(format:'json')
 
-POST    /channels                               Channels.create(format:'json')
-PUT     /channels/{<[0-9]+>channelId}           Channels.subscribe(format:'json')
-DELETE  /channels/{<[0-9]+>channelId}           Channels.unsubscribe(format:'json')
+POST    /channels                               ChannelsController.create(format:'json')
+PUT     /channels/{<[0-9]+>channelId}           ChannelsController.subscribe(format:'json')
+DELETE  /channels/{<[0-9]+>channelId}           ChannelsController.unsubscribe(format:'json')
 
 
-GET    /items                                   Items.items(format:'json')
-GET    /items/{<[0-9]+>itemId}                  Items.item(format:'json')
-PUT    /items/{<[0-9]+>itemId}                  Items.action(format:'json')
+GET    /items                                   ItemsController.items(format:'json')
+GET    /items/{<[0-9]+>itemId}                  ItemsController.item(format:'json')
+PUT    /items/{<[0-9]+>itemId}                  ItemsController.action(format:'json')
 
 
 # Catch all

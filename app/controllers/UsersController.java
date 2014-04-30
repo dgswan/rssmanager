@@ -2,5 +2,5 @@ package controllers;
 
 import play.mvc.Controller;
 
-public class Users extends Controller {
+public class UsersController extends Controller {
 }
