@@ -7,6 +7,9 @@ import com.google.gson.JsonSerializer;
 import models.Channel;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 
 public class ChannelSerializer implements JsonSerializer<Channel> {
@@ -17,7 +20,8 @@ public class ChannelSerializer implements JsonSerializer<Channel> {
         jsonObject.addProperty("title", channel.title);
         jsonObject.addProperty("description", channel.description);
         jsonObject.addProperty("url", channel.url);
-        jsonObject.addProperty("pubDate", channel.pubDate.toString());
+        DateFormat df = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a", Locale.ENGLISH);
+        jsonObject.addProperty("pubDate", df.format(channel.pubDate));
         jsonObject.addProperty("image", channel.image);
         return jsonObject;
     }
