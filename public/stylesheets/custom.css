@@ -1,0 +1,47 @@
+.my-item {
+	margin: 10px auto;
+	width: 60%;
+}
+
+.my-header {
+	margin: 20px auto;
+	width: 80%;
+}
+
+#picture {	
+	margin: 10px auto;
+	display: block;
+}
+
+.modal-body img {
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+.description {
+    display: none;
+}
+
+.thumbnail {
+
+}
+
+.img-with-text {
+    text-align: justify;
+    width: auto;
+}
+
+.img-with-text img {
+    display: block;
+    margin: 0 auto;
+}
+
+.mpicture {
+	width: 204px;
+	height: 104px;
+}
+
+.item-picture {	 
+	 width: 250px;
+	 height: 250px;
+}
