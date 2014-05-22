@@ -2,11 +2,13 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.syndication.io.FeedException;
 import models.Channel;
 import models.Item;
 import play.Logger;
 import play.mvc.Controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +56,11 @@ public class ChannelsController extends Controller {
     public static void create(String url) {
         Channel channel = new Channel();
         render(channel);
-
     }
 
     public static void subscribe(int channelId) {
         List<Channel> channels = new ArrayList<Channel>();
         channels.add(new Channel());
-
     }
 
     public static void unsubscribe(int channelId) {

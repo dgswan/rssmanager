@@ -4,12 +4,8 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/custom.css">
-  <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"> -->
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/social-likes_classic.css">
+  <link href="@{'/public/stylesheets/select2.css'}" rel="stylesheet"/>
+  <script src="@{'/public/javascripts/select2.js'}"></script>
 </head>
 <body>
 
@@ -42,7 +38,11 @@
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search channel">
+            <select id="e1">
+                #{list items:channels, as:'channel'}
+                    <option value=${channel.title}>${channel.title}</option>
+                #{/list}
+            </select>
         </div>
         <button type="submit" class="btn btn-default">Go</button>
       </form>
@@ -63,295 +63,89 @@
 
   <h2 align="center">Most viewed /<a href="">week</a>/<a href="">month</a>/<a href="">year</a> </h2>
 <div class="container">
-              <div class="row">
-                  <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">                          
-                            <img src="@{'/public/images/bee.jpg'}" alt="" class="item-picture">
-                            <h3>
-                                Sirenes tur sap
-                            </h3>                          
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 62
-                      </div>
+            <div class="row">
+                #{list items:items, as:'item'}
+                    <div class="col-xs-4">
+                        <div class="my-item">
+                            <div class="thumbnail">
+                                <img src=${item.image} alt="" class="item-picture">
+                                <h3>
+                                    ${item.title}
+                                </h3>
+                                <p class="description">
+                                    ${item.description.raw()}
+                                </p>
+                                <span class="glyphicon glyphicon-thumbs-up"></span> 62
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                        <span class="glyphicon glyphicon-thumbs-up"></span> 4
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 11
-                      </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                          <img src="@{'/public/images/bee.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Sirenes tur sap
-                          </h3>
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 78
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                        <span class="glyphicon glyphicon-thumbs-up"></span> 23
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 911
-                      </div>
-                    </div>
-                  </div>            
-              </div>
-
-              <div class="row">
-                  <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                          <img src="@{'/public/images/bee.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Sirenes tur sap
-                          </h3>
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 78
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                        <span class="glyphicon glyphicon-thumbs-up"></span> 23
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 911
-                      </div>
-                    </div>
-                  </div>            
-              </div>
-
-              <div class="row">
-                  <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                          <img src="@{'/public/images/bee.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Sirenes tur sap
-                          </h3>
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 78
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                        <span class="glyphicon glyphicon-thumbs-up"></span> 23
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 911
-                      </div>
-                    </div>
-                  </div>            
-              </div>
-
-              <div class="row">
-                  <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                          <img src="@{'/public/images/bee.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Sirenes tur sap
-                          </h3>
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 78
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                        <span class="glyphicon glyphicon-thumbs-up"></span> 23
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                          <span class="glyphicon glyphicon-thumbs-up"></span> 911
-                      </div>
-                    </div>
-                  </div>            
-              </div>
-
+                #{/list}
+            </div>
 </div>
 
-
-<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Sign in</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Login</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+#{form @Application.signIn()}
+    <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Sign in</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Login</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            *{<a href="feed.html" class="btn btn-primary">Confirm</a>}*
+            <input type="submit" class="btn btn-default" value="Ok" />
+          </div>
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="feed.html" class="btn btn-primary">Confirm</a>
       </div>
     </div>
-  </div>
-</div>
+#{/form}
 
-<div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Sign in</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Login</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+*{#{form @Application.signUp()}}*
+    <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Sign in</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Login</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Confirm Login</label>
+              <input type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Confirm Password</label>
+              <input type="email" class="form-control" name="password" id="confirmPassword" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <a href="feed.html" class="btn btn-primary">Confirm</a>
+            *{<input type="submit" class="btn btn-default" value="Ok" />}*
+          </div>
         </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Confirm Login</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Confirm Password</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="feed.html" class="btn btn-primary">Confirm</a>
       </div>
     </div>
-  </div>
-</div>
+*{#{/form}}*
 
 <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -381,7 +175,7 @@
         <h4 id="header" class="modal-title" id="myModalLabel">Basic Modal</h4>
       </div>
       <div class="modal-body">                    
-            <img id="picture" src="img/tide.jpg" alt="tide">                        
+            <img id="picture">
             <p id="text">Rom cernitur sum ulterius agi temporis ineptire uti exhibent. Etiamsi ut pugnare ad luminis si gi laborio dominum judicem. Si humanas affirmo et admitto innatas id fictile is creando. Imo qua invitus sic utilius praeter. Obversari incurrant dubitarem facultate tollentur est percipere sub nos. Aeque has motus eodem verba capax vos ullam.            
             </p>
             <p>
@@ -403,16 +197,20 @@
 </div>
 
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/social-likes.min.js"></script>
 <script type="text/javascript">
     $(".my-item").on("click", function() {                
       $('#basicModal').modal('toggle');
       $('#picture').attr("src", $(this).find("img").attr("src"));
       $('#header').html($(this).find("h3").html());
-      $('#text').html($(this).find("p").html());            
-    })  
-
+      $('#text').html($(this).find("p").html());
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $("#e1").select2({
+        placeholder: "Select a State",
+        allowClear: true
+    }); });
 </script>
 
 
