@@ -17,4 +17,12 @@ public class Application extends Controller {
         render();
     }
 
+    public static void feed() {
+        render();
+    }
+
+    public static void channel() {
+        render();
+    }
+
 }

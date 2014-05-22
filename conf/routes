@@ -5,6 +5,9 @@
 # Home page
 GET     /                                       Application.index
 GET     /login                                  Application.login
+GET     /feed.html                              Application.feed
+GET     /channel.html                           Application.channel
+GET     /index.html                             Application.index
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
