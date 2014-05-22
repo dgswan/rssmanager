@@ -6,10 +6,10 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-import play.Logger;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -32,6 +32,7 @@ public class Channel extends Model {
     public String title;
 
     @Required
+    @Column(length = 10000)
     public String description;
 
     @Required
@@ -100,10 +101,6 @@ public class Channel extends Model {
     }
 
     public void update() throws IOException, FeedException {
-
-       // if (this.url == null)
-        Logger.info(this.url);
-
         URL url = new URL(this.url);
         HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         SyndFeedInput input = new SyndFeedInput();
@@ -115,14 +112,12 @@ public class Channel extends Model {
         while (itEntries.hasNext()) {
             SyndEntry entry = (SyndEntry) itEntries.next();
             Item item = new Item(this, entry.getTitle(),
-                    entry.getDescription().getValue().substring(0, 20), //TODO
+                    entry.getDescription().getValue(),
                     entry.getLink(),
-                    entry.getPublishedDate(),
-                    ""
+                    entry.getPublishedDate()
             );
             if (!exists(item)) {
                // items.add(item);
-                Logger.info(item.title);
                 item.create();
                 refresh();
                 for(User user: users) {
