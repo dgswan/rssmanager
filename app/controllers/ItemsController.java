@@ -6,7 +6,6 @@ import models.Item;
 import play.Logger;
 import play.mvc.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsController extends Controller {
@@ -20,9 +19,7 @@ public class ItemsController extends Controller {
     }
 
     public static void items(int page, int lenght) {
-        List<Item> items = new ArrayList<Item>();
-        items.add(new Item());
-        items.add(new Item());
+        List<Item> items = Item.findAll();   // very tmp
         String jsonItems = gson.toJson(items);
         render(jsonItems, page, lenght);
     }
