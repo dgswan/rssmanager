@@ -1,13 +1,5 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8"/>
-  <link href="@{'/public/stylesheets/select2.css'}" rel="stylesheet"/>
-  <script src="@{'/public/javascripts/select2.js'}"></script>
-</head>
-<body>
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -63,24 +55,7 @@
 
   <h2 align="center">Most viewed /<a href="">week</a>/<a href="">month</a>/<a href="">year</a> </h2>
 <div class="container">
-            <div class="row">
-                #{list items:items, as:'item'}
-                    <div class="col-xs-4">
-                        <div class="my-item">
-                            <div class="thumbnail">
-                                <img src=${item.image} alt="" class="item-picture">
-                                <h3>
-                                    ${item.title}
-                                </h3>
-                                <p class="description">
-                                    ${item.description.raw()}
-                                </p>
-                                <span class="glyphicon glyphicon-thumbs-up"></span> 62
-                            </div>
-                        </div>
-                    </div>
-                #{/list}
-            </div>
+    <div id="grid" class="row"/>
 </div>
 
 #{form @Application.signIn()}
@@ -121,25 +96,26 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label for="exampleInputEmail1">Login</label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+                <label for="exampleInputEmail1">Login</label>
+                <input type="text" class="form-control" name="login" id="signUpLogin" placeholder="Login">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Confirm Login</label>
-              <input type="email" class="form-control" name="confirmEmail" id="confirmEmail" placeholder="Enter email">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" name="password" id="signUpPassword" placeholder="Password">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                <label for="exampleInputEmail1">Confirm Password</label>
+                <input type="password" class="form-control" name="confirmPassword" id="signUpConfirmPassword" placeholder="Password">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Confirm Password</label>
-              <input type="email" class="form-control" name="password" id="confirmPassword" placeholder="Enter email">
+                <label for="exampleInputEmail1">Confirm Password</label>
+                <input type="email" class="form-control" name="email" id="signUpEmail" placeholder="Email">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <a href="feed.html" class="btn btn-primary">Confirm</a>
+            <button type="button" class="btn btn-primary" id="signUp">Ok</button>
+            *{<a href="feed.html" class="btn btn-primary">Ok</a>}*
             *{<input type="submit" class="btn btn-default" value="Ok" />}*
           </div>
         </div>
@@ -196,23 +172,51 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-    $(".my-item").on("click", function() {                
-      $('#basicModal').modal('toggle');
-      $('#picture').attr("src", $(this).find("img").attr("src"));
-      $('#header').html($(this).find("h3").html());
-      $('#text').html($(this).find("p").html());
+    $(document).on("click",".my-item", function(e) {
+        $('#basicModal').modal('toggle');
+        $('#picture').attr("src", $(this).find("img").attr("src"));
+        $('#header').html($(this).find("h3").html());
+        $('#text').html($(this).find("span").html());
+    });
+
+    var getItemsAction = #{jsAction @ItemsController.items(':page', ':lenght')/};
+    var signUpAction = #{jsAction @UsersController.create(':password', ':username', ':email')/};
+
+    $("#signUp").on("click", function() {
+        var password = $("signUpPassword").val();
+        var confirm_password = $("signUpConfirmPassword").val();
+        if (password != confirm_password) {
+            alert("Don't match");
+            return false;
+        }
+        var username = $("signUpLogin").val();
+        var email = $("signUpEmail").val();
+        $.post(
+            signUpAction({password: password, username: username, email: email}),
+            function(data) {
+                alert(data.code);
+                alert(data.message);
+        });
+    });
+
+    $(document).ready(function() {
+        $.get(
+            getItemsAction({page: '1', lenght: '10'}),
+            function( data ) {
+                var items = data.items;
+                $.each(items, function(index, item) {
+                    $("#grid").append('<div class="col-xs-4"><div class="my-item"><div class="thumbnail"><img src=' +
+                    item.image + ' class="item-picture"><h3>' + item.title + '</h3><span class="description">'
+                    + item.description + '</span><span class="glyphicon glyphicon-thumbs-up"></span>62</div></div></div>');
+                });
+            },
+            "json"
+        )
+        $("#e1").select2({
+            placeholder: "Select a State",
+            allowClear: true,
+            width: 'resolve'
+        })
     })
 </script>
-<script>
-    $(document).ready(function() {
-        $("#e1").select2({
-        placeholder: "Select a State",
-        allowClear: true
-    }); });
-</script>
-
-
-  </body>
-</html>

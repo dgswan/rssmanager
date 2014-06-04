@@ -6,7 +6,9 @@ import models.Item;
 import play.Logger;
 import play.mvc.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemsController extends Controller {
     public static final Gson gson;
@@ -20,8 +22,15 @@ public class ItemsController extends Controller {
 
     public static void items(int page, int lenght) {
         List<Item> items = Item.findAll();   // very tmp
-        String jsonItems = gson.toJson(items);
-        render(jsonItems, page, lenght);
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("items", items);
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("offset", page);
+        metadata.put("limit", lenght);
+        metadata.put("count", 42);
+        response.put("metadata", metadata);
+        String prettyJson = gson.toJson(response);
+        renderJSON(prettyJson);
     }
 
     public static void item(int itemId) {
