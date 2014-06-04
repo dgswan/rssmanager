@@ -25,47 +25,23 @@
                 Featured
             </h2>
             <div class="container">
-              <div class="row">
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                          <img src="@{'/public/images/bee.jpg'}" class="item-picture" alt="">
-                          <h3>
-                              Sirenes tur sap
-                          </h3>
-                          <p class="description">
-                              Vi conservet inspectio disputari et me. Figuram moralis nam sui propter secunda rea. Mei deprehendi vigilantes defectibus voluntates sua geometriam istiusmodi. Pensitatis ita imo reducantur devenietur praemissae diversorum nec. Multi ab entis ex ob nulla typis. Occasio re maximum ex is haustam infusum. Contra nec quodam genium nam haereo pileos. Spontaneo cum proponere assignare suo supponant cur attigeram eam. Rea originis obtinent excitari quidquid ineptire iis has cognitas. 
-                          </p>
+                <div class="row">
+                    #{list items:firstThreeItems, as:'item'}
+                      <div class="col-xs-4">
+                          <div class="my-item">
+                              <div class="thumbnail">
+                                  <img src=${item.image} class="item-picture" alt="">
+                                  <h3>
+                                      ${item.title}
+                                  </h3>
+                                  <p class="description">
+                                      ${item.description.raw()}
+                                  </p>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                  </div>                 
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/mountain.jpg'}" alt="" class="item-picture">
-                        <h3>
-                            Perfectum ii infirmari
-                        </h3>
-                        <p class="description">
-                            Vul student quaeque brachia nos divelli. Ha ex alterius locusque insidias formalis ii mutuatur judiciis. Is revocare posuisse to possumne diversas arbitror obturabo. Eos voce inge ente ibi ideo enim. Volo vera nemo tam nolo more alia tum. Hic confirmari manifestum meo formaliter. Cui plane uti factu sumne aut multi timeo fas. 
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xs-4">
-                    <div class="my-item">
-                      <div class="thumbnail">
-                        <img src="@{'/public/images/billiard.jpg'}" alt="" class="item-picture">
-                          <h3>
-                              Ideo sumi sae
-                          </h3>
-                          <p class="description">
-                              Expendere rea eos scientiam assentiri tantumque aliquibus. Is ex aliquot saporem corpore at obscure. Cui veri quo dat sine ibi nudi dare. Nonnisi aperire et diversi majoris visione an vi. Rom ponderibus respondeam imaginarer hic externarum. Nudi suam de ha nunc ecce at in sine. Ne longo tenus ii du ferri et. Via tes excludat lectorum quaerere suo nam. 
-                          </p>
-                      </div>
-                    </div>
-                  </div>
-              </div>
+                    #{/list}
+                </div>
           </div>
 
         <ul class="media-list">
@@ -73,86 +49,20 @@
               <h2 class="my-header"> 
                   Channel1
               </h2>           
-            </a>             
-            <div class="my-item">
-                <li class="media">
-                    <a href="#" class="pull-left">
-                        <img src="@{'/public/images/tide.jpg'}" class="media-object mpicture" alt="tide">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Ei archetypi admiserim <small><i>Posted on January 10, 2014</i></small></h4>
-                        <p>Facile ha me virtus de calore factam si. Proposui qualitas eas uti accurate efficiat hoc. Advenit validas qui maximum res tamquam sic. Cui pertinent sic remanetne quibusnam eversioni ingeniosi colligere. Sitas ea facit ullis istud earum autem at. Tum rectum ima sed deponi inanes sciens egisse cau. </p>
-                    </div>
-                </li>
-            </div>
-
-            <div class="my-item">
-                <li class="media">
-                    <a href="#" class="pull-left">
-                        <img src="@{'/public/images/sunset.jpg'}" class="media-object mpicture" alt="sunset">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Advertisse id ac deveniatur <small><i>Posted on January 10, 2014</i></small></h4>
-                        <p>Usu omnis etc satis sum ullum. Fuisse jam qualia obstat hae fal per quidam tamdiu. Somniemus dei tribuebam cur ens exhibetur percipere. Eae nam mem dum istas intra donec. Age somniorum similibus praeclare removendo via. Extitisse ima hic obdormiam recurrunt quocunque hos vis. </p>
-                    </div>
-                </li>
-            </div>
-
-            <div class="my-item">
-                <li class="media">
-                    <a href="#" class="pull-left">
-                        <img src="@{'/public/images/tide.jpg'}" class="media-object mpicture" alt="tide">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Hic amisit possem <small><i>Posted on January 10, 2014</i></small></h4>
-                        <p>Rom cernitur sum ulterius agi temporis ineptire uti exhibent. Etiamsi ut pugnare ad luminis si gi laborio dominum judicem. Si humanas affirmo et admitto innatas id fictile is creando. Imo qua invitus sic utilius praeter. Obversari incurrant dubitarem facultate tollentur est percipere sub nos. Aeque has motus eodem verba capax vos ullam. </p>
-                    </div>
-                </li>
-            </div>
-        </ul>
-
-        <ul class="media-list">
-            <a href="channel.html">
-              <h2 class="my-header"> 
-                  Channel2
-              </h2>           
             </a>
-            <div class="my-item">
-              <li class="media">
-                  <a href="#" class="pull-left">
-                      <img src="@{'/public/images/tide.jpg'}" class="media-object mpicture" alt="tide">
-                  </a>
-                  <div class="media-body">
-                      <h4 class="media-heading">Ei archetypi admiserim <small><i>Posted on January 10, 2014</i></small></h4>
-                      <p>Facile ha me virtus de calore factam si. Proposui qualitas eas uti accurate efficiat hoc. Advenit validas qui maximum res tamquam sic. Cui pertinent sic remanetne quibusnam eversioni ingeniosi colligere. Sitas ea facit ullis istud earum autem at. Tum rectum ima sed deponi inanes sciens egisse cau. </p>
-                  </div>
-              </li>
-            </div>
-
-            <div class="my-item">
-              <li class="media">
-                  <a href="#" class="pull-left">
-                      <img src="@{'/public/images/sunset.jpg'}" class="media-object mpicture" alt="sunset">
-                  </a>
-                  <div class="media-body">
-                      <h4 class="media-heading">Advertisse id ac deveniatur <small><i>Posted on January 10, 2014</i></small></h4>
-                      <p>Usu omnis etc satis sum ullum. Fuisse jam qualia obstat hae fal per quidam tamdiu. Somniemus dei tribuebam cur ens exhibetur percipere. Eae nam mem dum istas intra donec. Age somniorum similibus praeclare removendo via. Extitisse ima hic obdormiam recurrunt quocunque hos vis. </p>
-                  </div>
-              </li>
-            </div>
-
-            <div class="my-item">
-              <li class="media">
-                  <a href="#" class="pull-left">
-                      <img src="@{'/public/images/tide.jpg'}" class="media-object mpicture" alt="tide">
-                  </a>
-                  <div class="media-body">
-                      <h4 class="media-heading">Hic amisit possem <small><i>Posted on January 10, 2014</i></small></h4>
-                      <p>Rom cernitur sum ulterius agi temporis ineptire uti exhibent. Etiamsi ut pugnare ad luminis si gi laborio dominum judicem. Si humanas affirmo et admitto innatas id fictile is creando. Imo qua invitus sic utilius praeter. Obversari incurrant dubitarem facultate tollentur est percipere sub nos. Aeque has motus eodem verba capax vos ullam. </p>
-                  </div>
-              </li>
-            </div>
-        </ul>
+            #{list items:otherItems, as:'item'}
+                <div class="my-item">
+                    <li class="media">
+                        <a href="#" class="pull-left">
+                            <img src=${item.image} class="media-object mpicture" alt="tide">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">${item.title}</h4>
+                            <p>${item.description.raw()}</p>
+                        </div>
+                    </li>
+                </div>
+            #{/list}
         </div>
     </div>
   </div>
@@ -195,12 +105,12 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="exampleInputEmail1">Url</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+          <input type="email" class="form-control" id="inputUrl" placeholder="Enter url">
         </div>
       </div>      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add</button>        
+        <button type="button" class="btn btn-primary" id="add">Add</button>
       </div>
     </div>
   </div>
@@ -208,16 +118,30 @@
 
 <script type="text/javascript">
 
-    $("#addChannel").on("click", function() {                
-      $('#addChannelModal').modal('toggle');            
-    })  
+    $("#add").click(function() {
+        var newUrl = $("#inputUrl").val();
+        alert(newUrl);
+        var addChannel = #{jsRoute @Application.addChannel(':url') /}
+            $.ajax({
+                url: addChannel.url({url: newUrl}),
+                type: addChannel.method
+//            data: 'user.name=Guillaume'
+        });
+    });
 
-    $(".my-item").on("click", function() {                
+    $("#addChannel").click(function() {
+        $('#addChannelModal').modal('toggle');
+    })
+
+    $(".my-item").on("click", function() {
       $('#basicModal').modal('toggle');
       $('#picture').attr("src", $(this).find("img").attr("src"));
       $('#header').html($(this).find("h4").html());
-      $('#text').html($(this).find("p").html());            
-    })      
+      var children =  $(this).find("p").children()
+//        alert(children);
+//      $('#text').appendChild($(this).find("p").children());
+        $('#text').appendChild(children);
+    })
 
 </script>
 

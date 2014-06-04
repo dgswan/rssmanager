@@ -6,13 +6,6 @@ require:
     - org.jdom -> jdom-legacy 1.1.3
 
 repositories:
-    - My modules:
-            type:       local
-            artifact:   ${application.path}/../[module]
-            contains:
-                - jar
-
-repositories:
     - rome:
         type:       local
         artifact:   "${application.path}/jar/rome-1.0.jar"

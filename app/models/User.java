@@ -28,4 +28,9 @@ public class User extends Model {
     @Required
     public String email;
 
+    public User(String username, String passwordHash) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+    }
+
 }
