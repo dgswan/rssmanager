@@ -68,11 +68,22 @@ public class Channel extends Model {
         return findAll();
     }
 
+    public static List<Channel> getChannels (String query, int page, int length) {
+        query = "%" + query + "%";
+       // return find("select ch from Channel ch join ch.users u where title like ? or description like ? or url like ? group by ch, ch.id order by count(u) desc", query, query, query).fetch(page, length);
+        return find("title like ? or description like ? or url like ? ", query, query, query).fetch(page, length);
+
+    }
+
     public static Channel getChannel(long channelId) {
         return find("id", channelId).first();
     }
 
     public List<Item> getItems(int page, int length) {
+        return Item.getItems(this, page, length);
+    }
+
+    public List<Item> getItems(User user, int page, int length) {
         return Item.getItems(this, page, length);
     }
 

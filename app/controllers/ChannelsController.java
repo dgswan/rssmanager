@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.Channel;
 import models.Item;
+import models.User;
 import play.Logger;
 import play.mvc.Controller;
 
@@ -27,25 +28,30 @@ public class ChannelsController extends Controller {
         render(channelId, channel);
     }
 
-    public static void channels(int page, int length) {
-        // User user = User.findById(1); //TODO
-        //  List<Channel> channels = Channel.getChannels(user, page, length);
-        List<Channel> channels = Channel.findAll();
-        String jsonChannels = gson.toJson(channels);
-        render(jsonChannels, page, length);
-
-    }
-
     public static void channels(String q, int page, int length) {
-        List<Channel> channels = Channel.findAll();
+       // List<Channel> channels = Channel.findAll();
+        List<Channel> channels;
+        if(q == null) {
+            channels = Channel.findAll();
+        } else {
+            channels = Channel.getChannels(q, page, length);
+        }
+        Logger.info(q);
         String jsonChannels = gson.toJson(channels);
         render(jsonChannels, page, length);
 
     }
 
     public static void items(long channelId, int page, int length) {
+        User user = User.getByCookie(request.cookies.get(User.AUTH_KEY).value);
         Channel channel = Channel.findById(channelId);
-        List<Item> items = channel.getItems(page, length);
+        List<Item> items;
+        if(user.getChannel(channelId) == null) {
+            items = channel.getItems(page, length);
+        } else {
+            items = channel.getItems(page, length); //TODO
+        }
+
 
         String jsonItems = ItemsController.gson.toJson(items);
         render(jsonItems, page, length);
