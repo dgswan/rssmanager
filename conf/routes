@@ -29,6 +29,9 @@ GET    /items                                   ItemsController.items(format:'js
 GET    /items/{<[0-9]+>itemId}                  ItemsController.item(format:'json')
 PUT    /items/{<[0-9]+>itemId}                  ItemsController.action(format:'json')
 
+POST   /registration                            UsersController.create(format:'json')
+POST   /login                                   UsersController.login(format:'json')
+
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

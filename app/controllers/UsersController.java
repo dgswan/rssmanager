@@ -6,6 +6,7 @@ import play.mvc.Http;
 
 public class UsersController extends Controller {
     private static final String BAD_REQUEST_MESSAGE = "Username or email is already exists";
+    private static final String NOT_FOUND_MESSAGE = "Incorrect login or password";
     private static final String OK_MESSAGE = "Succesfull";
 
     public static void create (String password, String username, String email) {
@@ -19,6 +20,20 @@ public class UsersController extends Controller {
         } else {
             code = Http.StatusCode.CREATED;
             message = OK_MESSAGE;
+            render(code, message);
+        }
+    }
+
+    public static void login (String password, String login) {
+        int code;
+        String message;
+        if(User.exists(password, login )) {
+            code = Http.StatusCode.OK;
+            message = OK_MESSAGE;
+            render(code, message);
+        } else {
+            code = Http.StatusCode.NOT_FOUND;
+            message = NOT_FOUND_MESSAGE;
             render(code, message);
         }
     }
