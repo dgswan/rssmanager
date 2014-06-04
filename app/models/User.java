@@ -3,7 +3,9 @@ package models;
 
 import play.data.validation.Email;
 import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
+import play.libs.Crypto;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -12,6 +14,9 @@ import java.util.List;
 
 @Entity
 public class User extends Model {
+
+    public static final String AUTH_KEY  = "AUTH_KEY";
+
     @ManyToMany
     public List<Channel> channels;
 
@@ -19,6 +24,7 @@ public class User extends Model {
     public List<UserItem> userItems;
 
     @Required
+    @Unique
     public String username;
 
     @Required
@@ -26,11 +32,25 @@ public class User extends Model {
 
     @Email
     @Required
+    @Unique
     public String email;
 
-    public User(String username, String passwordHash) {
+    public User(String password, String username, String email) {
+        this.passwordHash = Crypto.passwordHash(password);
         this.username = username;
-        this.passwordHash = passwordHash;
+        this.email = email;
     }
 
+    public static boolean exists (String username, String email) {
+        return !User.find("username = ? or email = ?", username, email).fetch().isEmpty();
+    }
+
+    public static User getByCookie(String cookie) {  //TODO
+        List<User> users = User.findAll();
+        return users.get(0);
+    }
+
+    public Channel getChannel(long channelid) {
+        return Channel.getChannel(channelid);
+    }
 }
