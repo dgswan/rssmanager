@@ -1,8 +1,8 @@
 {
     "items" :  ${jsonItems},
     "metadata" : {
-        "offset" : ${offset},
-          "limit" : ${limit},
+        "offset" : ${page},
+          "limit" : ${length},
           "count" : 42
     }
 }
