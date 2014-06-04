@@ -59,11 +59,17 @@ public class Item extends Model {
         this.description = description;
         this.url = url;
         this.pubDate = pubDate;
-        this.image = extractImage();
+        String img = extractImage();
+        this.image = img.equals("") ? channel.image : img;
 
     }
 
     public static List<Item> getItems(Channel channel, int page, int length) {
+        return find("channel = ? order by pubDate desc", channel).fetch(page, length);
+
+    }
+
+    public static List<Item> getItems(User user, Channel channel, int page, int length) {
         return find("channel = ? order by pubDate desc", channel).fetch(page, length);
 
     }
