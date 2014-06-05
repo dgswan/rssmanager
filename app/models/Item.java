@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Entity
 public class Item extends Model {
 
-    @OneToMany
+    @OneToMany (mappedBy = "item")
     public List<UserItem> userItems;
 
     @ManyToOne
@@ -74,14 +73,6 @@ public class Item extends Model {
 
     }
 
-    public static List<Item> getItems(User user, int page, int length) {
-        List<UserItem> userItems = UserItem.findByUser(user, page, length);
-        List<Item> items = new ArrayList<Item>();
-        for (UserItem useritem : userItems) {
-            items.add(useritem.item);
-        }
-        return items;
-    }
 
     public Item getItem(int itemId) {
         return find("id", itemId).first();
@@ -91,6 +82,10 @@ public class Item extends Model {
         UserItem useritem = find("user = ? and item = ?", user, this).first();
         useritem.isRead = true;
         useritem.refresh();
+    }
+
+    public static List<Item> getByUser(User user, int page, int length) {
+        return find("select i from UserItem ui, Item i where ui.item.id = i.id and ui.user = ? and isRead = ? order by i.pubDate desc ", user, false).fetch(page, length);
     }
 
 

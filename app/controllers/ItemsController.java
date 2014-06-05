@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.Item;
+import models.User;
 import play.Logger;
 import play.mvc.Controller;
 
@@ -21,7 +22,7 @@ public class ItemsController extends Controller {
     }
 
     public static void items(int page, int length) {
-        List<Item> items = Item.findAll();   // very tmp
+        List<Item> items =  Item.getByUser(User.getBySession(session), page, length);
         Map<String, Object> response = new HashMap<String, Object>();
         //create response
         response.put("items", items);

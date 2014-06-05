@@ -22,7 +22,7 @@ public class User extends Model {
             inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
     public List<Channel> channels;
 
-    @OneToMany
+    @OneToMany (mappedBy = "user")
     public List<UserItem> userItems;
 
     @Required
