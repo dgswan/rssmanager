@@ -22,7 +22,7 @@ import java.util.List;
 
 @Entity
 public class Channel extends Model {
-    @ManyToMany
+    @ManyToMany (mappedBy = "channels")
     public List<User> users;
 
     @OneToMany
@@ -32,7 +32,7 @@ public class Channel extends Model {
     public String title;
 
     @Required
-    @Column(length = 10000)
+    @Column(length = 4000)
     public String description;
 
     @Required
@@ -44,13 +44,6 @@ public class Channel extends Model {
     public String image;
 
     public Channel() {
-        id = 4l;
-        title = "title";
-        description = "description";
-        url = "url";
-        pubDate = new Date();
-        image = "jfksjkf";
-        //create();
     }
 
     public Channel(String title, String description, String url, Date pubDate, String image) {
@@ -59,7 +52,6 @@ public class Channel extends Model {
         this.url = url;
         this.pubDate = pubDate;
         this.image = image;
-        //  create();
     }
 
     public static List<Channel> getChannels(User user, int page, int length) {

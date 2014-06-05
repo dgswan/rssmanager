@@ -2,15 +2,13 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.syndication.io.FeedException;
 import models.Channel;
 import models.Item;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
+import play.mvc.Http;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelsController extends Controller {
@@ -31,10 +29,12 @@ public class ChannelsController extends Controller {
     }
 
     public static void channels(String q, int page, int length) {
-       // List<Channel> channels = Channel.findAll();
+        // List<Channel> channels = Channel.findAll();
         List<Channel> channels;
-        if(q == null) {
-            channels = Channel.findAll();
+        if (q == null) {
+            User user = User.getBySession(session);
+            channels = user.channels;
+            Logger.info("get channels %s %d", user.username, user.channels.size());
         } else {
             channels = Channel.getChannels(q, page, length);
         }
@@ -45,10 +45,10 @@ public class ChannelsController extends Controller {
     }
 
     public static void items(long channelId, int page, int length) {
-        User user = User.getByCookie(request.cookies.get(User.AUTH_KEY).value);
+        User user = User.getBySession(session);
         Channel channel = Channel.findById(channelId);
         List<Item> items;
-        if(user.getChannel(channelId) == null) {
+        if (user.getChannel(channelId) == null) {
             items = channel.getItems(page, length);
         } else {
             items = channel.getItems(page, length); //TODO
@@ -64,9 +64,15 @@ public class ChannelsController extends Controller {
         render(channel);
     }
 
-    public static void subscribe(int channelId) {
-        List<Channel> channels = new ArrayList<Channel>();
-        channels.add(new Channel());
+    public static void subscribe(long channelId) {
+        User user = User.getBySession(session);
+        Channel channel = Channel.getChannel(channelId);
+        channel.users.add(user);
+        user.channels.add(channel);
+        user.save();
+        channel.save();
+        int code = Http.StatusCode.OK;
+        render(code);
     }
 
     public static void unsubscribe(int channelId) {
