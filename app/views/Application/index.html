@@ -58,7 +58,7 @@
     <div id="grid" class="row"/>
 </div>
 
-#{form @Application.signIn()}
+*{#{form @Application.signIn()}}*
     <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -69,22 +69,21 @@
           <div class="modal-body">
             <div class="form-group">
               <label for="exampleInputEmail1">Login</label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+              <input type="email" class="form-control" name="email" id="signInLogin" placeholder="Login">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+              <input type="password" class="form-control" name="password" id="signInPassword" placeholder="Password">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            *{<a href="feed.html" class="btn btn-primary">Confirm</a>}*
-            <input type="submit" class="btn btn-default" value="Ok" />
+            <button type="button" class="btn btn-primary" id="signIn">Ok</button>
           </div>
         </div>
       </div>
     </div>
-#{/form}
+*{#{/form}}*
 
 *{#{form @Application.signUp()}}*
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -182,22 +181,44 @@
 
     var getItemsAction = #{jsAction @ItemsController.items(':page', ':lenght')/};
     var signUpAction = #{jsAction @UsersController.create(':password', ':username', ':email')/};
+    var signInAction = #{jsAction @UsersController.login(':password', ':login')/};
 
     $("#signUp").on("click", function() {
-        var password = $("signUpPassword").val();
-        var confirm_password = $("signUpConfirmPassword").val();
+        var password = $("#signUpPassword").val();
+        var confirm_password = $("#signUpConfirmPassword").val();
         if (password != confirm_password) {
             alert("Don't match");
             return false;
         }
-        var username = $("signUpLogin").val();
-        var email = $("signUpEmail").val();
+        var username = $("#signUpLogin").val();
+        var email = $("#signUpEmail").val();
         $.post(
             signUpAction({password: password, username: username, email: email}),
             function(data) {
-                alert(data.code);
-                alert(data.message);
-        });
+                console.log(data.code);
+                console.log(data.message);
+                if (data.code == 201) {
+                    var new_url = window.location.host + "/feed.html";
+                    window.location.replace("http://" + new_url);
+                }
+            }
+        );
+    });
+
+    $("#signIn").on("click", function() {
+        var password = $("#signInPassword").val();
+        var login = $("#signInLogin").val();
+        $.post(
+            signInAction({password: password, login: login}),
+            function(data) {
+                console.log(data.code);
+                console.log(data.message);
+                if (data.code == 200) {
+                    var new_url = window.location.host + "/feed.html";
+                    window.location.replace("http://" + new_url);
+                }
+            }
+        );
     });
 
     $(document).ready(function() {
@@ -206,9 +227,11 @@
             function( data ) {
                 var items = data.items;
                 $.each(items, function(index, item) {
-                    $("#grid").append('<div class="col-xs-4"><div class="my-item"><div class="thumbnail"><img src=' +
-                    item.image + ' class="item-picture"><h3>' + item.title + '</h3><span class="description">'
-                    + item.description + '</span><span class="glyphicon glyphicon-thumbs-up"></span>62</div></div></div>');
+                    if (item.image != "") {
+                        $("#grid").append('<div class="col-xs-3"><div class="my-item"><div class="thumbnail"><img src=' +
+                        item.image + ' class="item-picture"><h3>' + item.title + '</h3><span class="description">'
+                        + item.description + '</span><span class="glyphicon glyphicon-thumbs-up"></span>62</div></div></div>');
+                    }
                 });
             },
             "json"

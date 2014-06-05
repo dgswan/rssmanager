@@ -23,6 +23,7 @@ public class ItemsController extends Controller {
     public static void items(int page, int lenght) {
         List<Item> items = Item.findAll();   // very tmp
         Map<String, Object> response = new HashMap<String, Object>();
+        //create response
         response.put("items", items);
         Map<String, Object> metadata = new HashMap<String, Object>();
         metadata.put("offset", page);

@@ -22,6 +22,7 @@ public class UsersController extends Controller {
         } else {
             code = Http.StatusCode.CREATED;
             message = OK_MESSAGE;
+            //create response
             Map<String, Object> response = new HashMap<String, Object>();
             response.put("code", code);
             response.put("message", message);
@@ -35,11 +36,15 @@ public class UsersController extends Controller {
         if(User.exists(password, login )) {
             code = Http.StatusCode.OK;
             message = OK_MESSAGE;
-            render(code, message);
+            //render(code, message);
         } else {
             code = Http.StatusCode.NOT_FOUND;
             message = NOT_FOUND_MESSAGE;
-            render(code, message);
+            //render(code, message);
         }
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("code", code);
+        response.put("message", message);
+        renderJSON(response);
     }
 }
