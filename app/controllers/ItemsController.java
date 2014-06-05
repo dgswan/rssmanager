@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import models.Item;
 import models.User;
-import play.Logger;
+import models.UserItem;
 import play.mvc.Controller;
+import play.mvc.Http;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,13 +36,22 @@ public class ItemsController extends Controller {
         renderJSON(prettyJson);
     }
 
-    public static void item(int itemId) {
+    public static void item(long itemId) {
         Item item = new Item();
         String jsonItem = gson.toJson(item);
         render(jsonItem);
     }
 
-    public static void action (int itemId, String typeOfAction) {
-        Logger.info("%d", itemId);
+    public static void action (long itemId, String action) {
+        Item item = Item.findById(itemId);
+        UserItem userItem = UserItem.find("item = ? and user = ?", item, User.getBySession(session)).first();
+        if (action.equals("read")) {
+            userItem.isRead = true;
+        } else if (action.equals("unread")) {
+            userItem.isRead = false;
+        }
+        userItem.save();
+        int code = Http.StatusCode.OK;
+        render(code);
     }
 }
