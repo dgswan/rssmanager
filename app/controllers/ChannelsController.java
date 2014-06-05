@@ -76,6 +76,14 @@ public class ChannelsController extends Controller {
     }
 
     public static void unsubscribe(int channelId) {
+        User user = User.getBySession(session);
+        Channel channel = Channel.getChannel(channelId);
+        channel.users.remove(user);
+        user.channels.remove(channel);
+        user.save();
+        channel.save();
+        int code = Http.StatusCode.OK;
+        render(code);
 
     }
 
