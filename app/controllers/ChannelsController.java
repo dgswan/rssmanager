@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import models.Channel;
 import models.Item;
 import models.User;
+import models.UserItem;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -65,13 +66,23 @@ public class ChannelsController extends Controller {
     }
 
     public static void subscribe(long channelId) {
+        int code;
         User user = User.getBySession(session);
         Channel channel = Channel.getChannel(channelId);
-        channel.users.add(user);
-        user.channels.add(channel);
-        user.save();
-        channel.save();
-        int code = Http.StatusCode.OK;
+        if (!channel.users.contains(user)) {
+            channel.users.add(user);
+            user.channels.add(channel);
+            code = Http.StatusCode.OK;
+            user.save();
+            channel.save();
+            List<Item> items = channel.getItems(1, 10);
+            for (Item item : items) {
+                UserItem useritem = new UserItem(user, item);
+                useritem.create();
+            }
+        } else {
+            code = Http.StatusCode.BAD_REQUEST;
+        }
         render(code);
     }
 
@@ -82,6 +93,10 @@ public class ChannelsController extends Controller {
         user.channels.remove(channel);
         user.save();
         channel.save();
+        List<UserItem> userItems = UserItem.getByChannelAndUser(channel, user);
+        for (UserItem ui: userItems) {
+            ui.delete();
+        }
         int code = Http.StatusCode.OK;
         render(code);
 

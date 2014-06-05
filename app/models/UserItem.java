@@ -21,11 +21,10 @@ public class UserItem extends Model {
     public UserItem(User user, Item item) {
         this.user = user;
         this.item = item;
-        create();
     }
 
-    public static List<UserItem> findByUser(User user, int page, int length) {
-        return find("user", user).fetch(page, length);
+    public static List<UserItem> getByChannelAndUser (Channel channel, User user) {
+        return UserItem.find ("user = ? and item.channel = ?", user, channel).fetch();
     }
 
 
