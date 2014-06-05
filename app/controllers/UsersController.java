@@ -13,7 +13,7 @@ public class UsersController extends Controller {
         int code;
         String message;
         User user = new User(password, username, email);
-        if (!user.create()) {
+        if (!user.validateAndCreate()) {
             code = Http.StatusCode.BAD_REQUEST;
             message = BAD_REQUEST_MESSAGE;
             render(code, message);
