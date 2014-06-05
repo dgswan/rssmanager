@@ -25,44 +25,14 @@
                 Featured
             </h2>
             <div class="container">
-                <div class="row">
-                    #{list items:firstThreeItems, as:'item'}
-                      <div class="col-xs-4">
-                          <div class="my-item">
-                              <div class="thumbnail">
-                                  <img src=${item.image} class="item-picture" alt="">
-                                  <h3>
-                                      ${item.title}
-                                  </h3>
-                                  <p class="description">
-                                      ${item.description.raw()}
-                                  </p>
-                              </div>
-                          </div>
-                      </div>
-                    #{/list}
-                </div>
-          </div>
-
-        <ul class="media-list">
+                <div class="row" id="top_three"/>
+            </div>
             <a href="channel.html">
-              <h2 class="my-header"> 
-                  Channel1
-              </h2>           
+                <h2 class="my-header">
+                    Channel1
+                </h2>
             </a>
-            #{list items:otherItems, as:'item'}
-                <div class="my-item">
-                    <li class="media">
-                        <a href="#" class="pull-left">
-                            <img src=${item.image} class="media-object mpicture" alt="tide">
-                        </a>
-                        <div class="media-body">
-                            <h4 class="media-heading">${item.title}</h4>
-                            <p>${item.description.raw()}</p>
-                        </div>
-                    </li>
-                </div>
-            #{/list}
+            <div id="list" class="row"/>
         </div>
     </div>
   </div>
@@ -72,23 +42,22 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="header" class="modal-title" id="myModalLabel">Basic Modal</h4>
+        <h4 id="header" class="modal-title">Basic Modal</h4>
       </div>
-      <div class="modal-body">                    
-            <img id="picture" src="@{'/public/images/tide.jpg'}" alt="tide">
-            <p id="text">Rom cernitur sum ulterius agi temporis ineptire uti exhibent. Etiamsi ut pugnare ad luminis si gi laborio dominum judicem. Si humanas affirmo et admitto innatas id fictile is creando. Imo qua invitus sic utilius praeter. Obversari incurrant dubitarem facultate tollentur est percipere sub nos. Aeque has motus eodem verba capax vos ullam.            
-            </p>
+      <div class="modal-body">
+            <img id="picture" src="">
+            <p id="text"></p>
             <p>
               <small><i>Posted on January 10, 2014</i></small>
             </p>
             <div class="social-likes">
               <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-              <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>  
-              <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>  
+              <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+              <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
               <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
             </div>
       </div>
-      <div class="modal-footer">        
+      <div class="modal-footer">
         <button type="button" class="btn btn-primary">Mark as unread</button>
       </div>
     </div>
@@ -100,7 +69,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="header" class="modal-title" id="myModalLabel">Add channel</h4>
+        <h4 id="header" class="modal-title">Add channel</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
@@ -118,6 +87,61 @@
 
 <script type="text/javascript">
 
+    $(document).on("click",".my-item", function(e) {
+        $('#basicModal').modal('toggle');
+        $('#picture').attr("src", $(this).find("img").attr("src"));
+        $('#header').html($(this).find("h4").html());
+        var children =  $(this).find("p").html();
+        $('#text').html(children);
+        //$('#text').html($(this).find("span").html());
+    });
+
+    var getItemsAction = #{jsAction @ItemsController.items(':page', ':lenght')/};
+
+    $(document).ready(function() {
+        $.get(
+                getItemsAction({page: '1', lenght: '10'}),
+                function( data ) {
+                    var items = data.items;
+                    var n = 0;
+                    $.each(items, function(index, item) {
+                        if (item.image != "") {
+                            if (n < 3) {
+                                $("#top_three").append(
+                                        '<div class="col-xs-4">' +
+                                                '<div class="my-item">' +
+                                                    '<div class="thumbnail">' +
+                                                        '<img src=' + item.image + ' class="media object" alt="">' +
+                                                        '<h3>' + item.title + '</h3>' +
+                                                        '<p class="description">' +
+                                                            item.description +
+                                                        '</p>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                        '</div>');
+                                n++;
+                            }
+                            else {
+                                $("#list").append(
+                                        '<div class="col-xs-12">' +
+                                            '<div class="my-item">' +
+                                                '<div class="thumbnail">' +
+                                                    '<img src=' + item.image + ' class="item-picture">' +
+                                                    '<h3>' + item.title + '</h3>' +
+                                                    '<span>' +
+                                                        item.description +
+                                                    '</span>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>');
+                            }
+                        }
+                    });
+                },
+                "json"
+        )
+    })
+
     $("#add").click(function() {
         var newUrl = $("#inputUrl").val();
         alert(newUrl);
@@ -125,7 +149,6 @@
             $.ajax({
                 url: addChannel.url({url: newUrl}),
                 type: addChannel.method
-//            data: 'user.name=Guillaume'
         });
     });
 
@@ -137,7 +160,7 @@
       $('#basicModal').modal('toggle');
       $('#picture').attr("src", $(this).find("img").attr("src"));
       $('#header').html($(this).find("h4").html());
-      var children =  $(this).find("p").children()
+      var children =  $(this).find("p").children();
 //        alert(children);
 //      $('#text').appendChild($(this).find("p").children());
         $('#text').appendChild(children);

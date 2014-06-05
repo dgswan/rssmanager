@@ -21,19 +21,17 @@ public class UsersController extends Controller {
         if (!user.validateAndCreate()) {
             code = Http.StatusCode.BAD_REQUEST;
             message = BAD_REQUEST_MESSAGE;
-            render(code, message);
         } else {
             code = Http.StatusCode.CREATED;
             message = OK_MESSAGE;
-            //create response
-            Map<String, Object> response = new HashMap<String, Object>();
-            response.put("code", code);
-            response.put("message", message);
-            renderJSON(response);
         }
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("code", code);
+        response.put("message", message);
+        renderJSON(response);
     }
 
-    public static void login (String password, String login) {
+    public static void login(String password, String login) {
         int code;
         String message;
         User user = User.exists(password, login );
