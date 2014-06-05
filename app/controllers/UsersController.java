@@ -27,9 +27,11 @@ public class UsersController extends Controller {
     public static void login (String password, String login) {
         int code;
         String message;
-        if(User.exists(password, login )) {
+        User user = User.exists(password, login );
+        if(user != null) {
             code = Http.StatusCode.OK;
             message = OK_MESSAGE;
+            session.put("username", user.username);
             render(code, message);
         } else {
             code = Http.StatusCode.NOT_FOUND;

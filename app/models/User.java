@@ -6,18 +6,20 @@ import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
 import play.libs.Crypto;
+import play.mvc.Scope;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class User extends Model {
 
-    public static final String AUTH_KEY  = "AUTH_KEY";
+    public static final String USER_NAME = "username";
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "UserChannel",
+            joinColumns = @JoinColumn(referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
     public List<Channel> channels;
 
     @OneToMany
@@ -41,13 +43,13 @@ public class User extends Model {
         this.email = email;
     }
 
-    public static boolean exists (String password, String login) {
-        return !User.find("(username = ? or email = ?) and passwordHash = ?", login, login, Crypto.passwordHash(password)).fetch().isEmpty();
+    public static User exists (String password, String login) {
+        return User.find("(username = ? or email = ?) and passwordHash = ?", login, login, Crypto.passwordHash(password)).first();
     }
 
-    public static User getByCookie(String cookie) {  //TODO
-        List<User> users = User.findAll();
-        return users.get(0);
+    public static User getBySession(Scope.Session session) {  //TODO
+
+        return User.find("username = ?", session.get(User.USER_NAME)).first();
     }
 
     public Channel getChannel(long channelid) {
