@@ -42,7 +42,7 @@ public class User extends Model {
     }
 
     public static boolean exists (String password, String login) {
-        return !User.find("username = ? or email = ? and passwordHash = ?", login, login, Crypto.passwordHash(password)).fetch().isEmpty();
+        return !User.find("(username = ? or email = ?) and passwordHash = ?", login, login, Crypto.passwordHash(password)).fetch().isEmpty();
     }
 
     public static User getByCookie(String cookie) {  //TODO
