@@ -24,8 +24,8 @@ public class UserItem extends Model {
         create();
     }
 
-    public static List<UserItem> findByUser(User user) {
-        return find("user", user).fetch();
+    public static List<UserItem> findByUser(User user, int page, int length) {
+        return find("user", user).fetch(page, length);
     }
 
 

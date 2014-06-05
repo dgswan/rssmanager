@@ -25,7 +25,7 @@ public class Item extends Model {
     public String title;
 
     @Required
-    @Column(length = 10000)
+    @Column(length = 4000)
     public String description;
 
     @Required
@@ -75,7 +75,7 @@ public class Item extends Model {
     }
 
     public static List<Item> getItems(User user, int page, int length) {
-        List<UserItem> userItems = UserItem.findByUser(user);
+        List<UserItem> userItems = UserItem.findByUser(user, page, length);
         List<Item> items = new ArrayList<Item>();
         for (UserItem useritem : userItems) {
             items.add(useritem.item);

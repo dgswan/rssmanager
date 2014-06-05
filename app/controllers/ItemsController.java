@@ -20,15 +20,15 @@ public class ItemsController extends Controller {
         gson = gsonBuilder.create();
     }
 
-    public static void items(int page, int lenght) {
+    public static void items(int page, int length) {
         List<Item> items = Item.findAll();   // very tmp
         Map<String, Object> response = new HashMap<String, Object>();
         //create response
         response.put("items", items);
         Map<String, Object> metadata = new HashMap<String, Object>();
         metadata.put("offset", page);
-        metadata.put("limit", lenght);
-        metadata.put("count", 42);
+        metadata.put("limit", length);
+        metadata.put("count", items.size());
         response.put("metadata", metadata);
         String prettyJson = gson.toJson(response);
         renderJSON(prettyJson);
