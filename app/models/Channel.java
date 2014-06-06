@@ -11,7 +11,6 @@ import play.db.jpa.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -22,8 +21,9 @@ import java.util.List;
 
 @Entity
 public class Channel extends Model {
-    @ManyToMany (mappedBy = "channels")
-    public List<User> users;
+
+    @OneToMany (mappedBy = "channel")
+    public List<UserChannel> userChannels;
 
     @OneToMany
     public List<Item> items;
@@ -79,26 +79,6 @@ public class Channel extends Model {
         return Item.getItems(this, page, length);
     }
 
-    public void subscribe(User user) {
-        users.add(user);
-        user.channels.add(this);
-        refresh();
-        user.refresh();
-
-    }
-
-    private List<User> getSubscribedUsers() {
-        return User.find("channels", this).fetch();
-    }
-
-    public void unsubscribe(User user) {
-        users.remove(user);
-        user.channels.remove(this);
-        refresh();
-        user.refresh();
-
-    }
-
     private boolean exists(Item item) {
         return Item.count("select count(distinct i) from Item i where title = ? and pubDate = ? and channel = ?", item.title, item.pubDate, this) != 0;
     }
@@ -120,9 +100,9 @@ public class Channel extends Model {
                     entry.getPublishedDate()
             );
             if (!exists(item)) {
-               // items.add(item);
                 item.create();
                 refresh();
+                List <User> users = User.getByChannel(this);
                 for(User user: users) {
                     UserItem useritem = new UserItem(user, item);
                     useritem.create();
@@ -147,6 +127,11 @@ public class Channel extends Model {
                 channel.getPublishedDate(),
                 img);
         ch.create();
+    }
+
+    public static List<Channel> getByUser(User user, int page, int length) {
+        return find("select c from User u, UserChannel uc, Channel c where u.id = uc.user.id and uc.channel.id = c.id  and u = ? order by c.title", user)
+                .fetch(page, length);
     }
 
 

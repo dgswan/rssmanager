@@ -8,7 +8,8 @@ import play.db.jpa.Model;
 import play.libs.Crypto;
 import play.mvc.Scope;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
@@ -16,14 +17,11 @@ public class User extends Model {
 
     public static final String USER_NAME = "username";
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name = "UserChannel",
-            joinColumns = @JoinColumn(referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
-    public List<Channel> channels;
-
     @OneToMany (mappedBy = "user")
     public List<UserItem> userItems;
+
+    @OneToMany (mappedBy = "user")
+    public List<UserChannel> userChannels;
 
     @Required
     @Unique
@@ -47,12 +45,21 @@ public class User extends Model {
         return User.find("(username = ? or email = ?) and passwordHash = ?", login, login, Crypto.passwordHash(password)).first();
     }
 
-    public static User getBySession(Scope.Session session) {  //TODO
+    public static User getBySession(Scope.Session session) {
 
         return User.find("username = ?", session.get(User.USER_NAME)).first();
     }
 
     public Channel getChannel(long channelid) {
         return Channel.getChannel(channelid);
+    }
+
+    public boolean isSubscribed (long channelId) {
+        return !User.find("select u from User u, Channel ch, UserChannel uc where u.id = uc.user.id and ch.id = uc.channel.id and ch.id = ? and u.id = ?", channelId, this.id)
+                .fetch().isEmpty();
+    }
+
+    public static List<User> getByChannel (Channel channel) {
+        return find ("select u from User u, UserChannel uc, Channel c where u = uc.user and c = uc.channel and c = ?", channel).fetch();
     }
 }
