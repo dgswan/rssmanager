@@ -31,6 +31,7 @@ PUT    /items/{<[0-9]+>itemId}                  ItemsController.action(format:'j
 
 POST   /registration                            UsersController.create(format:'json')
 POST   /login                                   UsersController.login(format:'json')
+POST   /logout                                  UsersController.logout(format:'json')
 
 
 # Catch all

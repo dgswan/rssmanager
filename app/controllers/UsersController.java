@@ -7,8 +7,6 @@ import play.mvc.Http;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.*;
-
 public class UsersController extends Controller {
     private static final String BAD_REQUEST_MESSAGE = "Username or email is already exists";
     private static final String NOT_FOUND_MESSAGE = "Incorrect login or password";
@@ -49,5 +47,14 @@ public class UsersController extends Controller {
         response.put("code", code);
         response.put("message", message);
         renderJSON(response);
+    }
+
+    public static void logout () {
+        int code = Http.StatusCode.OK;
+        session.remove("username");
+        Map<String, Object> jsonResponse = new HashMap<String, Object>();
+        jsonResponse.put("code", code);
+        renderJSON(jsonResponse);
+
     }
 }
