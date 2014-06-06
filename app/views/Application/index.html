@@ -18,12 +18,12 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
-          <a class="btn btn-default btn-lg" data-toggle="modal" href="#signInModal">
+          <a style="margin: 10px" class="btn btn-default btn-lg" data-toggle="modal" href="#signInModal">
             Sign in
           </a>
         </li>
         <li>
-          <a class="btn btn-default btn-lg" data-toggle="modal" href="#signUpModal">
+          <a style="margin: 10px" class="btn btn-default btn-lg" data-toggle="modal" href="#signUpModal">
             Sign up
           </a>
         </li>      
@@ -58,7 +58,6 @@
     <div id="grid" class="row"/>
 </div>
 
-*{#{form @Application.signIn()}}*
     <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -83,9 +82,7 @@
         </div>
       </div>
     </div>
-*{#{/form}}*
 
-*{#{form @Application.signUp()}}*
     <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -114,13 +111,10 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" id="signUp">Ok</button>
-            *{<a href="feed.html" class="btn btn-primary">Ok</a>}*
-            *{<input type="submit" class="btn btn-default" value="Ok" />}*
           </div>
         </div>
       </div>
     </div>
-*{#{/form}}*
 
 <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -151,8 +145,7 @@
       </div>
       <div class="modal-body">                    
             <img id="picture">
-            <p id="text">Rom cernitur sum ulterius agi temporis ineptire uti exhibent. Etiamsi ut pugnare ad luminis si gi laborio dominum judicem. Si humanas affirmo et admitto innatas id fictile is creando. Imo qua invitus sic utilius praeter. Obversari incurrant dubitarem facultate tollentur est percipere sub nos. Aeque has motus eodem verba capax vos ullam.            
-            </p>
+            <p id="text"/>
             <p>
               <small><i>Posted on January 10, 2014</i></small>
             </p>
@@ -162,10 +155,6 @@
               <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>  
               <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
             </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -182,6 +171,7 @@
     var getItemsAction = #{jsAction @ItemsController.items(':page', ':lenght')/};
     var signUpAction = #{jsAction @UsersController.create(':password', ':username', ':email')/};
     var signInAction = #{jsAction @UsersController.login(':password', ':login')/};
+    var getChannelsAction = #{jsAction @ChannelsController.channels(':q', ':page', ':length')/};
 
     $("#signUp").on("click", function() {
         var password = $("#signUpPassword").val();
@@ -228,9 +218,20 @@
                 var items = data.items;
                 $.each(items, function(index, item) {
                     if (item.image != "") {
-                        $("#grid").append('<div class="col-xs-3"><div class="my-item"><div class="thumbnail"><img src=' +
-                        item.image + ' class="item-picture"><h3>' + item.title + '</h3><span class="description">'
-                        + item.description + '</span><span class="glyphicon glyphicon-thumbs-up"></span>62</div></div></div>');
+                        $("#grid").append(
+                                '<div class="col-xs-3 preview-item">' +
+                                        '<div class="my-item">' +
+                                            '<div class="thumbnail">' +
+                                                '<img src=' + item.image + ' class="item-picture">' +
+                                                '<h3>' + item.title + '</h3>' +
+                                                '<span class="description">' +
+                                                    item.description +
+                                                '</span>' +
+                                                '<span class="glyphicon glyphicon-thumbs-up"></span>' +
+                                                '62' +
+                                            '</div>' +
+                                        '</div>' +
+                                '</div>');
                     }
                 });
             },
