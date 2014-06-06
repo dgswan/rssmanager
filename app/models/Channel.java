@@ -7,6 +7,7 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
 
 import javax.persistence.Column;
@@ -31,11 +32,11 @@ public class Channel extends Model {
     @Required
     public String title;
 
-    @Required
     @Column(length = 4000)
     public String description;
 
     @Required
+    @Unique
     public String url;
 
     @Required
@@ -129,7 +130,6 @@ public class Channel extends Model {
                 urlString,
                 channel.getPublishedDate(),
                 img);
-        ch.create();
     }
 
     public static List<Channel> getByUser(User user, int page, int length) {
