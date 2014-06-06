@@ -23,7 +23,7 @@ import java.util.List;
 @Entity
 public class Channel extends Model {
 
-    @OneToMany (mappedBy = "channel")
+    @OneToMany(mappedBy = "channel")
     public List<UserChannel> userChannels;
 
     @OneToMany
@@ -61,9 +61,9 @@ public class Channel extends Model {
         return findAll();
     }
 
-    public static List<Channel> getChannels (String query, int page, int length) {
+    public static List<Channel> getChannels(String query, int page, int length) {
         query = "%" + query + "%";
-       // return find("select ch from Channel ch join ch.users u where title like ? or description like ? or url like ? group by ch, ch.id order by count(u) desc", query, query, query).fetch(page, length);
+        // return find("select ch from Channel ch join ch.users u where title like ? or description like ? or url like ? group by ch, ch.id order by count(u) desc", query, query, query).fetch(page, length);
         return find("select ch from UserChannel uc right join uc.channel ch where (title like ? or description like ? or url like ?) group by ch order by count(uc.user) desc", query, query, query)
                 .fetch(page, length);
         //return find("title like ? or description like ? or url like ? ", query, query, query).fetch(page, length);
@@ -106,8 +106,8 @@ public class Channel extends Model {
             if (!exists(item)) {
                 item.create();
                 refresh();
-                List <User> users = User.getByChannel(this);
-                for(User user: users) {
+                List<User> users = User.getByChannel(this);
+                for (User user : users) {
                     UserItem useritem = new UserItem(user, item);
                     useritem.create();
                 }
@@ -117,7 +117,7 @@ public class Channel extends Model {
 
     }
 
-    public static void addChannel(String urlString) throws IOException, FeedException {
+    public static Channel addChannel(String urlString) throws IOException, FeedException {
 
         URL url = new URL(urlString);
         HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
@@ -130,6 +130,11 @@ public class Channel extends Model {
                 urlString,
                 channel.getPublishedDate(),
                 img);
+        if (ch.validateAndCreate()) {
+            ch.update();
+            return ch;
+        }
+        return null;
     }
 
     public static List<Channel> getByUser(User user, int page, int length) {

@@ -59,6 +59,16 @@ public class User extends Model {
                 .fetch().isEmpty();
     }
 
+    public void subscribe (Channel channel) {
+       UserChannel userChannel = new UserChannel(this, channel);
+        userChannel.create();
+        List<Item> items = channel.getItems(1, 10);
+        for (Item item : items) {
+            UserItem useritem = new UserItem(this, item);
+            useritem.create();
+        }
+    }
+
     public static List<User> getByChannel (Channel channel) {
         return find ("select u from User u, UserChannel uc, Channel c where u = uc.user and c = uc.channel and c = ?", channel).fetch();
     }

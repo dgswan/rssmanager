@@ -7,7 +7,9 @@ import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Http;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChannelsController extends Controller {
 
@@ -42,6 +44,29 @@ public class ChannelsController extends Controller {
 
     }
 
+    // create user's channel
+    public static void create(String url) {
+        int code;
+        Map<String, Object> jsonResponse = new HashMap<String, Object>();
+        try {
+            Channel channel = Channel.addChannel(url);
+            if (channel != null) {
+                code = Http.StatusCode.OK;
+                User user = User.getBySession(session);
+                if (user != null) {
+                    user.subscribe(channel);
+                }
+            } else {
+                code = Http.StatusCode.BAD_REQUEST;
+            }
+
+        } catch (Exception e) {
+            code = Http.StatusCode.BAD_REQUEST;
+        }
+        jsonResponse.put("code", code);
+        renderJSON(jsonResponse);
+    }
+
     public static void items(long channelId, int page, int length) {
         User user = User.getBySession(session);
         Channel channel = Channel.findById(channelId);
@@ -56,11 +81,6 @@ public class ChannelsController extends Controller {
         render(jsonItems, page, length);
     }
 
-    public static void create(String url) {
-        Channel channel = new Channel();
-        render(channel);
-    }
-
     public static void subscribe(long channelId) {
         int code;
         User user = User.getBySession(session);
@@ -71,14 +91,8 @@ public class ChannelsController extends Controller {
         Logger.info(channel.id.toString());
 
         if (userChannel == null) {
-            userChannel = new UserChannel(user, channel);
-            userChannel.create();
+            user.subscribe(channel);
             code = Http.StatusCode.OK;
-            List<Item> items = channel.getItems(1, 10);
-            for (Item item : items) {
-                UserItem useritem = new UserItem(user, item);
-                useritem.create();
-            }
         } else {
             code = Http.StatusCode.BAD_REQUEST;
         }
