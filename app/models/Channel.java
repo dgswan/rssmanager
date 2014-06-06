@@ -63,7 +63,10 @@ public class Channel extends Model {
     public static List<Channel> getChannels (String query, int page, int length) {
         query = "%" + query + "%";
        // return find("select ch from Channel ch join ch.users u where title like ? or description like ? or url like ? group by ch, ch.id order by count(u) desc", query, query, query).fetch(page, length);
-        return find("title like ? or description like ? or url like ? ", query, query, query).fetch(page, length);
+        return find("select ch from UserChannel uc right join uc.channel ch where (title like ? or description like ? or url like ?) group by ch order by count(uc.user) desc", query, query, query)
+                .fetch(page, length);
+        //return find("title like ? or description like ? or url like ? ", query, query, query).fetch(page, length);
+
 
     }
 
