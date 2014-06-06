@@ -23,7 +23,7 @@ public class ItemsController extends Controller {
     }
 
     public static void items(int page, int length) {
-        List<Item> items =  Item.getByUser(User.getBySession(session), page, length);
+        List<Item> items =  Item.getFeed(User.getBySession(session), page, length);
         Map<String, Object> response = new HashMap<String, Object>();
         //create response
         response.put("items", items);

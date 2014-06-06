@@ -2,10 +2,7 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import models.Channel;
-import models.Item;
-import models.User;
-import models.UserItem;
+import models.*;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -34,8 +31,8 @@ public class ChannelsController extends Controller {
         List<Channel> channels;
         if (q == null) {
             User user = User.getBySession(session);
-            channels = user.channels;
-            Logger.info("get channels %s %d", user.username, user.channels.size());
+            channels = Channel.getByUser(user, page, length);
+            Logger.info("get channels %s %d", user.username, channels.size());
         } else {
             channels = Channel.getChannels(q, page, length);
         }
@@ -49,12 +46,11 @@ public class ChannelsController extends Controller {
         User user = User.getBySession(session);
         Channel channel = Channel.findById(channelId);
         List<Item> items;
-        if (user.getChannel(channelId) == null) {
+        if (!user.isSubscribed(channelId)) {
             items = channel.getItems(page, length);
         } else {
-            items = channel.getItems(page, length); //TODO
+            items = Item.getItems(user, channel, page, length);
         }
-
 
         String jsonItems = ItemsController.gson.toJson(items);
         render(jsonItems, page, length);
@@ -69,12 +65,15 @@ public class ChannelsController extends Controller {
         int code;
         User user = User.getBySession(session);
         Channel channel = Channel.getChannel(channelId);
-        if (!channel.users.contains(user)) {
-            channel.users.add(user);
-            user.channels.add(channel);
+        UserChannel userChannel = UserChannel.find("channel = ? and user = ?", channel, user).first();
+
+        Logger.info(user.id.toString());
+        Logger.info(channel.id.toString());
+
+        if (userChannel == null) {
+            userChannel = new UserChannel(user, channel);
+            userChannel.create();
             code = Http.StatusCode.OK;
-            user.save();
-            channel.save();
             List<Item> items = channel.getItems(1, 10);
             for (Item item : items) {
                 UserItem useritem = new UserItem(user, item);
@@ -88,16 +87,19 @@ public class ChannelsController extends Controller {
 
     public static void unsubscribe(int channelId) {
         User user = User.getBySession(session);
+        int code;
         Channel channel = Channel.getChannel(channelId);
-        channel.users.remove(user);
-        user.channels.remove(channel);
-        user.save();
-        channel.save();
-        List<UserItem> userItems = UserItem.getByChannelAndUser(channel, user);
-        for (UserItem ui: userItems) {
-            ui.delete();
+        UserChannel userChannel = UserChannel.find("user = ? and channel = ?", user, channel).first();
+        if (userChannel != null) {
+            userChannel.delete();
+            List<UserItem> userItems = UserItem.getByChannelAndUser(channel, user);
+            for (UserItem ui : userItems) {
+                ui.delete();
+            }
+            code = Http.StatusCode.OK;
+        } else {
+            code = Http.StatusCode.BAD_REQUEST;
         }
-        int code = Http.StatusCode.OK;
         render(code);
 
     }

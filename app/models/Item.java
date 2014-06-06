@@ -69,7 +69,7 @@ public class Item extends Model {
     }
 
     public static List<Item> getItems(User user, Channel channel, int page, int length) {
-        return find("channel = ? order by pubDate desc", channel).fetch(page, length);
+        return find("select i from UserItem ui, Item i where ui.item.id = i.id and ui.user = ? and isRead = ? and i.channel = ? order by i.pubDate desc ", user, false, channel).fetch(page, length);
 
     }
 
@@ -84,7 +84,7 @@ public class Item extends Model {
         useritem.refresh();
     }
 
-    public static List<Item> getByUser(User user, int page, int length) {
+    public static List<Item> getFeed(User user, int page, int length) {
         return find("select i from UserItem ui, Item i where ui.item.id = i.id and ui.user = ? and isRead = ? order by i.pubDate desc ", user, false).fetch(page, length);
     }
 
