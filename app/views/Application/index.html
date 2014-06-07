@@ -11,7 +11,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">RSS Manager</a>
+      <a class="navbar-brand" href="feed.html">RSS Manager</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,7 +42,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Home</a></li>            
+            <li><a href="#">Home</a></li>
             <li><a href="#" data-toggle="modal" href="#aboutUsModal">About us</a></li>
             <li class="divider"></li>
             <li><a href="#">Sign out</a></li>
@@ -211,9 +211,14 @@
         );
     });
 
+
+    var length = 16;
+    var page = 1;
+    var loading = false;
+
     $(document).ready(function() {
         $.get(
-            getItemsAction({page: '1', lenght: '10'}),
+            getItemsAction({page: page, lenght: length}),
             function( data ) {
                 var items = data.items;
                 $.each(items, function(index, item) {
@@ -237,10 +242,74 @@
             },
             "json"
         )
+        page++;
+
+        $.get(
+                getChannelsAction({page:1, length: 100}),
+                function(data) {
+                    var channels = data.channels;
+                    $.each(data, function(index, item) {
+                        $("#e1").append(
+                            '<option value=' + item.title + '>' +
+                                item.title +
+                            '</option>'
+                        )
+                    })
+                }
+        )
+
         $("#e1").select2({
             placeholder: "Select a State",
             allowClear: true,
             width: 'resolve'
         })
     })
+
+
+    $(window).scroll(function() { //detect page scroll
+        console.log("load");
+        console.log($(window).scrollTop());
+        console.log($(window).height());
+        console.log($(document).height());
+        if($(window).scrollTop() + $(window).height() == $(document).height())  //user scrolled to bottom of the page?
+        {
+            console.log("load");
+            //if(track_load <= total_groups && loading==false) //there's more data to load
+            if (loading == false) {
+                console.log("load");
+                loading = true; //prevent further ajax loading
+                //load data from the server using a HTTP POST request
+                $.get(
+                        getItemsAction({page: page, lenght: length}),
+                        function( data ) {
+                            console.log(data);
+                            var items = data.items;
+                            var n = 0;
+                            $.each(items, function(index, item) {
+                                        if (item.image != "") {
+                                            $("#grid").append(
+                                                    '<div class="col-xs-3 preview-item">' +
+                                                            '<div class="my-item">' +
+                                                            '<div class="thumbnail">' +
+                                                            '<img src=' + item.image + ' class="item-picture">' +
+                                                            '<h3>' + item.title + '</h3>' +
+                                                            '<span class="description">' +
+                                                            item.description +
+                                                            '</span>' +
+                                                            '<span class="glyphicon glyphicon-thumbs-up"></span>' +
+                                                            '62' +
+                                                            '</div>' +
+                                                            '</div>' +
+                                                            '</div>');
+                                        }
+                                    }
+                            )},
+                        "json"
+                )
+                page++;
+                loading = false;
+            }
+        }
+    });
+
 </script>

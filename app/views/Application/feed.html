@@ -1,11 +1,5 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8"/>
-</head>  
-<body>
 
   <nav class="menu push-menu-left">
     <ul>
@@ -13,12 +7,12 @@
         <li><a href="feed.html">Home</a></li>
         <li><a href="#">Saved for Later</a></li>
         <li><a id="addChannel" href="#">Add content</a></li>
-        <li><a href="#">All</a></li>        
-        <li><a href="index.html">Main page</a></li>        
+        <li><a href="#">All</a></li>
+        <li><a href="index.html">Main page</a></li>
     </ul>
   </nav>
 
-  <div id="wrapper">
+  *{<div id="wrapper">}*
     <div id="main">
         <div class="container">
             <h2 class="my-header">
@@ -35,7 +29,7 @@
             <div id="list" class="row"/>
         </div>
     </div>
-  </div>
+  *{</div>}*
 
 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
   <div class="modal-dialog">
@@ -47,8 +41,8 @@
       <div class="modal-body">
             <img id="picture" src="">
             <p id="text"></p>
-            <p>
-              <small><i>Posted on January 10, 2014</i></small>
+            <p id="pubDate">
+              <i>Posted on January 10, 2014</i>
             </p>
             <div class="social-likes">
               <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
@@ -64,43 +58,55 @@
   </div>
 </div>
 
-<div class="modal fade" id="addChannelModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 id="header" class="modal-title">Add channel</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Url</label>
-          <input type="email" class="form-control" id="inputUrl" placeholder="Enter url">
+<div class="modal fade" id="addChannelModal" tabindex="-1" role="dialog" aria-labelledby="addChannelModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="header" class="modal-title">Add channel</h4>
+            </div>
+            <div class="modal-body">
+                <label for="inputUrl">Url</label>
+                <input type="email" class="form-control" id="inputUrl" placeholder="Enter url">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="add">Add</button>
+            </div>
         </div>
-      </div>      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add">Add</button>
-      </div>
     </div>
-  </div>
 </div>
 
 <script type="text/javascript">
+
+    $("#addChannel").on("click", function() {
+        $('#addChannelModal').modal('toggle');
+    });
 
     $(document).on("click",".my-item", function(e) {
         $('#basicModal').modal('toggle');
         $('#picture').attr("src", $(this).find("img").attr("src"));
         $('#header').html($(this).find("h4").html());
-        var children =  $(this).find("p").html();
-        $('#text').html(children);
-        //$('#text').html($(this).find("span").html());
+        $('#text').html($(this).find("span").html());
+        $('#pubDate').html($(this).find("p").html());
     });
 
     var getItemsAction = #{jsAction @ItemsController.items(':page', ':lenght')/};
+    var addChannelAction = #{jsAction @ChannelsController.create(':url')/};
+
+    var loading  = false; //to prevents multipal ajax loads
+    var length = 10;
+    var page = 1;
 
     $(document).ready(function() {
+        var start = 1;
+        var track_load = 0; //total loaded record group(s)
+        //var total_groups = <?php echo $total_groups; ?>; //total record group(s)
+
+        //$('#results').load("autoload_process.php", {'page':track_load}, function() {track_load++;}); //load first group
+
         $.get(
-                getItemsAction({page: '1', lenght: '10'}),
+                getItemsAction({page: page, lenght: length}),
                 function( data ) {
                     var items = data.items;
                     var n = 0;
@@ -116,6 +122,7 @@
                                                         '<p class="description">' +
                                                             item.description +
                                                         '</p>' +
+                                                        '<p><i>' + item.pubDate + '</i></p>' +
                                                     '</div>' +
                                                 '</div>' +
                                         '</div>');
@@ -131,6 +138,7 @@
                                                     '<span>' +
                                                         item.description +
                                                     '</span>' +
+                                                    '<p><i>' + item.pubDate + '</i></p>' +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>');
@@ -140,34 +148,64 @@
                 },
                 "json"
         )
+        page++;
     })
 
-    $("#add").click(function() {
-        var newUrl = $("#inputUrl").val();
-        alert(newUrl);
-        var addChannel = #{jsRoute @Application.addChannel(':url') /}
-            $.ajax({
-                url: addChannel.url({url: newUrl}),
-                type: addChannel.method
+
+    $("#add").on("click", function() {
+        var url = $("#inputUrl").val();
+        $.post(
+                addChannelAction({url: url}),
+                function(data) {
+                    console.log(data);
+                }
+        );
+    })
+
+
+        $(window).scroll(function() { //detect page scroll
+            console.log("load");
+            console.log($(window).scrollTop());
+            console.log($(window).height());
+            console.log($(document).height());
+            if($(window).scrollTop() + $(window).height() == $(document).height())  //user scrolled to bottom of the page?
+            {
+                console.log("load");
+                //if(track_load <= total_groups && loading==false) //there's more data to load
+                if (loading == false) {
+                    console.log("load");
+                    loading = true; //prevent further ajax loading
+                    //load data from the server using a HTTP POST request
+                    $.get(
+                            getItemsAction({page: page, lenght: length}),
+                            function( data ) {
+                                console.log(data);
+                                var items = data.items;
+                                var n = 0;
+                                $.each(items, function(index, item) {
+                                    if (item.image != "") {
+                                            $("#list").append(
+                                                    '<div class="col-xs-12">' +
+                                                            '<div class="my-item">' +
+                                                            '<div class="thumbnail">' +
+                                                            '<img src=' + item.image + ' class="item-picture">' +
+                                                            '<h3>' + item.title + '</h3>' +
+                                                            '<span>' +
+                                                            item.description +
+                                                            '</span>' +
+                                                            '<p>' + item.pubDate + '</p>' +
+                                                            '</div>' +
+                                                            '</div>' +
+                                                            '</div>');
+                                        }
+                                    }
+                                )},
+                            "json"
+                    )
+                    page++;
+                    loading = false;
+                }
+            }
         });
-    });
-
-    $("#addChannel").click(function() {
-        $('#addChannelModal').modal('toggle');
-    })
-
-    $(".my-item").on("click", function() {
-      $('#basicModal').modal('toggle');
-      $('#picture').attr("src", $(this).find("img").attr("src"));
-      $('#header').html($(this).find("h4").html());
-      var children =  $(this).find("p").children();
-//        alert(children);
-//      $('#text').appendChild($(this).find("p").children());
-        $('#text').appendChild(children);
-    })
 
 </script>
-
-
-  </body>
-</html>

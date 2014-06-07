@@ -21,7 +21,9 @@ public class ChannelSerializer implements JsonSerializer<Channel> {
         jsonObject.addProperty("description", channel.description);
         jsonObject.addProperty("url", channel.url);
         DateFormat df = new SimpleDateFormat("MMM dd, yyyy h:mm:ss a", Locale.ENGLISH);
-        jsonObject.addProperty("pubDate", df.format(channel.pubDate));
+        if (channel.pubDate != null) {
+            jsonObject.addProperty("pubDate", df.format(channel.pubDate));
+        }
         jsonObject.addProperty("image", channel.image);
         return jsonObject;
     }

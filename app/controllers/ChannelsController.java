@@ -40,29 +40,42 @@ public class ChannelsController extends Controller {
         }
         Logger.info(q);
         String jsonChannels = gson.toJson(channels);
-        render(jsonChannels, page, length);
-
+        Map<String, Object> response = new HashMap<String, Object>();
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("page", page);
+        metadata.put("length", length);
+        metadata.put("count", 42);
+        response.put("channels", jsonChannels);
+        response.put("metadata", metadata);
+        renderJSON(response);
     }
 
     // create user's channel
     public static void create(String url) {
+        Logger.info("url " + url);
         int code;
+        Long channelId = -1L;
         Map<String, Object> jsonResponse = new HashMap<String, Object>();
         try {
             Channel channel = Channel.addChannel(url);
             if (channel != null) {
+                channelId = channel.getId();
                 code = Http.StatusCode.OK;
                 User user = User.getBySession(session);
                 if (user != null) {
                     user.subscribe(channel);
+                    Logger.info(user.username);
                 }
             } else {
+                Logger.info("channel is null");
                 code = Http.StatusCode.BAD_REQUEST;
             }
 
         } catch (Exception e) {
+            Logger.info("exception : " + e.getMessage());
             code = Http.StatusCode.BAD_REQUEST;
         }
+        jsonResponse.put("id", channelId);
         jsonResponse.put("code", code);
         renderJSON(jsonResponse);
     }

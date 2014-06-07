@@ -6,6 +6,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import play.Logger;
 import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
@@ -130,11 +131,22 @@ public class Channel extends Model {
                 urlString,
                 channel.getPublishedDate(),
                 img);
-        if (ch.validateAndCreate()) {
-            ch.update();
-            return ch;
+        if (ch == null) {
+            Logger.info("ch wasn't created");
         }
-        return null;
+        Logger.info(channel.getTitle());
+        Logger.info(channel.getDescription());
+        Logger.info(urlString);
+        //Logger.info(channel.getPublishedDate().toString());
+        //Logger.info(img);
+//        if (ch.validateAndCreate()) {
+//            Logger.info("Validated");
+//            ch.update();
+//
+//        }
+        ch.save();
+        //Logger.info("Not validated");
+        return ch;
     }
 
     public static List<Channel> getByUser(User user, int page, int length) {
