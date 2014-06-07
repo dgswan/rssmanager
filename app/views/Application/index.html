@@ -26,13 +26,18 @@
           <a style="margin: 10px" class="btn btn-default btn-lg" data-toggle="modal" href="#signUpModal">
             Sign up
           </a>
-        </li>      
+        </li>
+          <li>
+              <a style="margin: 10px" class="btn btn-default btn-lg" data-toggle="modal" id="log-out-button">
+                  Log out
+              </a>
+          </li>
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
             <select id="e1">
                 #{list items:channels, as:'channel'}
-                    <option value=${channel.title}>${channel.title}</option>
+                    <option value=${channel.id}>${channel.title}</option>
                 #{/list}
             </select>
         </div>
@@ -172,6 +177,7 @@
     var signUpAction = #{jsAction @UsersController.create(':password', ':username', ':email')/};
     var signInAction = #{jsAction @UsersController.login(':password', ':login')/};
     var getChannelsAction = #{jsAction @ChannelsController.channels(':q', ':page', ':length')/};
+    var logOutAction = #{jsAction @UsersController.logout()/};
 
     $("#signUp").on("click", function() {
         var password = $("#signUpPassword").val();
@@ -224,7 +230,7 @@
                 $.each(items, function(index, item) {
                     if (item.image != "") {
                         $("#grid").append(
-                                '<div class="col-xs-3 preview-item">' +
+                                '<div class="col-xs-4 preview-item">' +
                                         '<div class="my-item">' +
                                             '<div class="thumbnail">' +
                                                 '<img src=' + item.image + ' class="item-picture">' +
@@ -247,8 +253,11 @@
         $.get(
                 getChannelsAction({page:1, length: 100}),
                 function(data) {
+                    console.log(data);
                     var channels = data.channels;
+                    console.log(channels);
                     $.each(data, function(index, item) {
+                        console.log(item.title);
                         $("#e1").append(
                             '<option value=' + item.title + '>' +
                                 item.title +
@@ -288,7 +297,7 @@
                             $.each(items, function(index, item) {
                                         if (item.image != "") {
                                             $("#grid").append(
-                                                    '<div class="col-xs-3 preview-item">' +
+                                                    '<div class="col-xs-4 preview-item">' +
                                                             '<div class="my-item">' +
                                                             '<div class="thumbnail">' +
                                                             '<img src=' + item.image + ' class="item-picture">' +
@@ -310,6 +319,38 @@
                 loading = false;
             }
         }
+    });
+
+    $("#log-out-button").on("click", function() {
+        $.post(
+                logOutAction({}),
+                function(data) {
+                    console.log(data.code);
+                }
+        );
+    })
+
+    $('#basicModal').on('show', function () {
+        $(this).find('.modal-body').css({
+            width:'auto', //probably not needed
+            height:'auto', //probably not needed
+            'max-height':'100%'
+        });
+    });
+
+    var getItemsByChannelAction = #{jsAction @ChannelsController.items(':id', ':page', ':length') /};
+    var page = 1;
+    var length = 10;
+
+    $( "#e1" ).change(function() {
+        var channelId = $("#e1").val();
+        console.log("id :", channelId);
+        $.get(
+            getItemsByChannelAction({id: channelId, page: page, length: length}),
+            function(data) {
+                console.log(data);
+            }
+        )
     });
 
 </script>

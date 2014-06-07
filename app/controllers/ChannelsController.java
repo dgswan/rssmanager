@@ -45,9 +45,10 @@ public class ChannelsController extends Controller {
         metadata.put("page", page);
         metadata.put("length", length);
         metadata.put("count", 42);
-        response.put("channels", jsonChannels);
+        response.put("channels", channels);
         response.put("metadata", metadata);
-        renderJSON(response);
+        String prettyJson = gson.toJson(response);
+        renderJSON(prettyJson);
     }
 
     // create user's channel
